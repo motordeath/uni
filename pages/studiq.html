@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudIQ - UNIMATE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans min-h-screen">
+    <!-- Navigation -->
+    <nav class="px-6 py-5 md:px-10 md:py-6 bg-gray-900/95 backdrop-blur-md border-b border-white/10">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <a href="../index.html" class="flex items-center gap-3">
+                    <svg viewBox="0 0 24 24" class="w-8 h-8 text-yellow-400">
+                        <path fill="currentColor" d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V15h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+                    </svg>
+                    <div class="text-2xl md:text-3xl font-bold">UNIMATE</div>
+                </a>
+            </div>
+            <a href="../index.html" class="px-5 py-2.5 border border-gray-700 rounded-lg bg-transparent hover:border-gray-600 hover:bg-white/5 transition-all duration-300 text-sm font-semibold">
+                ← Back to Home
+            </a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="px-6 md:px-10 py-12 bg-gradient-to-br from-yellow-900/20 to-gray-900">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-16 h-16 flex items-center justify-center bg-yellow-500/20 border-2 border-yellow-400/40 rounded-2xl">
+                    <svg class="w-10 h-10 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-light bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent">StudIQ</h1>
+                    <p class="text-xl text-gray-400 mt-2">Your Study Resource Library</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Section -->
+    <div class="px-6 md:px-10 py-8 bg-gray-800/30">
+        <div class="max-w-6xl mx-auto">
+            <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6">
+                <div class="flex flex-col md:flex-row gap-6 items-center">
+                    <div class="flex-1">
+                        <h3 class="text-lg font-semibold mb-2">Share Your Knowledge</h3>
+                        <p class="text-gray-400 text-sm">Upload your notes to help fellow students and earn community points!</p>
+                    </div>
+                    <button onclick="openUploadModal()" class="px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-gray-900 rounded-xl font-semibold transition-colors duration-300">
+                        Upload Notes
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search & Filter Section -->
+    <div class="px-6 md:px-10 py-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div class="md:col-span-2">
+                    <input type="text" id="notesSearch" placeholder="Search notes by subject, topic, or professor..." class="w-full px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-yellow-400/50">
+                </div>
+                <select id="subjectFilter" class="px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white focus:outline-none focus:border-yellow-400/50">
+                    <option value="">All Subjects</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Business">Business</option>
+                </select>
+                <select id="typeFilter" class="px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white focus:outline-none focus:border-yellow-400/50">
+                    <option value="">All Types</option>
+                    <option value="Lecture Notes">Lecture Notes</option>
+                    <option value="Study Guide">Study Guide</option>
+                    <option value="Mind Map">Mind Map</option>
+                    <option value="Assignment">Assignment</option>
+                    <option value="Practice Test">Practice Test</option>
+                </select>
+                <select id="semesterFilter" class="px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white focus:outline-none focus:border-yellow-400/50">
+                    <option value="">All Semesters</option>
+                    <option value="Fall 2024">Fall 2024</option>
+                    <option value="Spring 2024">Spring 2024</option>
+                    <option value="Fall 2023">Fall 2023</option>
+                    <option value="Spring 2023">Spring 2023</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notes Grid -->
+    <div class="px-6 md:px-10 pb-12">
+        <div class="max-w-6xl mx-auto">
+            <div id="notesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Notes cards will be populated by JavaScript -->
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-bold text-yellow-400 mb-2" id="totalNotes">0</div>
+                    <div class="text-sm text-gray-400 uppercase tracking-wide">Total Notes</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-bold text-blue-400 mb-2" id="totalDownloads">0</div>
+                    <div class="text-sm text-gray-400 uppercase tracking-wide">Total Downloads</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-bold text-green-400 mb-2" id="activeContributors">0</div>
+                    <div class="text-sm text-gray-400 uppercase tracking-wide">Contributors</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-bold text-purple-400 mb-2" id="avgRating">0</div>
+                    <div class="text-sm text-gray-400 uppercase tracking-wide">Avg Rating</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="px-6 md:px-10 py-8 border-t border-white/10 text-center">
+        <p class="text-gray-400">© 2025 UNIMATE StudIQ. Sharing knowledge for academic success.</p>
+    </footer>
+
+    <!-- Upload Modal -->
+    <div id="uploadModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-900 border border-white/20 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <h3 class="text-2xl font-bold">Upload Study Notes</h3>
+                    <button onclick="closeUploadModal()" class="text-gray-400 hover:text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <form class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Title *</label>
+                        <input type="text" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-yellow-400/50" placeholder="Enter note title...">
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Subject *</label>
+                            <select class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-yellow-400/50">
+                                <option value="">Select Subject</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Mathematics">Mathematics</option>
+                                <option value="Physics">Physics</option>
+                                <option value="Chemistry">Chemistry</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Type *</label>
+                            <select class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-yellow-400/50">
+                                <option value="">Select Type</option>
+                                <option value="Lecture Notes">Lecture Notes</option>
+                                <option value="Study Guide">Study Guide</option>
+                                <option value="Mind Map">Mind Map</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Professor</label>
+                        <input type="text" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-yellow-400/50" placeholder="Professor name...">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Description</label>
+                        <textarea class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-yellow-400/50 h-24" placeholder="Brief description of the notes..."></textarea>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Upload Files *</label>
+                        <div class="border-2 border-dashed border-white/20 rounded-xl p-8 text-center hover:border-yellow-400/50 transition-colors duration-300">
+                            <svg class="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                            </svg>
+                            <p class="text-gray-400 mb-2">Drag & drop files here or click to browse</p>
+                            <p class="text-xs text-gray-500">Supported: PDF, DOC, DOCX, JPG, PNG (Max 10MB)</p>
+                            <input type="file" multiple class="hidden" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png">
+                        </div>
+                    </div>
+                </form>
+                
+                <div class="flex gap-4 mt-8">
+                    <button onclick="uploadNotes()" class="px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-gray-900 rounded-xl font-semibold transition-colors duration-300">
+                        Upload Notes
+                    </button>
+                    <button onclick="closeUploadModal()" class="px-6 py-3 bg-gray-600 hover:bg-gray-700 rounded-xl font-semibold transition-colors duration-300">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Note Preview Modal -->
+    <div id="noteModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-900 border border-white/20 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <h3 class="text-2xl font-bold" id="modalNoteTitle">Note Title</h3>
+                    <button onclick="closeNoteModal()" class="text-gray-400 hover:text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div id="modalNoteContent" class="space-y-6">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+                <div class="flex gap-4 mt-8">
+                    <button onclick="downloadNote()" class="px-6 py-3 bg-yellow-500 hover:bg-yellow-600 text-gray-900 rounded-xl font-semibold transition-colors duration-300">
+                        Download Notes
+                    </button>
+                    <button onclick="closeNoteModal()" class="px-6 py-3 bg-gray-600 hover:bg-gray-700 rounded-xl font-semibold transition-colors duration-300">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample notes data
+        const notes = [
+            {
+                id: 1,
+                title: "Data Structures and Algorithms - Complete Guide",
+                subject: "Computer Science",
+                type: "Study Guide",
+                professor: "Dr. Sarah Johnson",
+                uploader: "Alex Chen",
+                semester: "Fall 2024",
+                uploadDate: "2024-01-15",
+                downloads: 234,
+                rating: 4.8,
+                pages: 45,
+                description: "Comprehensive study guide covering all major data structures including arrays, linked lists, trees, graphs, and their algorithms.",
+                topics: ["Arrays", "Linked Lists", "Binary Trees", "Graph Algorithms", "Sorting", "Searching"],
+                format: "PDF"
+            },
+            {
+                id: 2,
+                title: "Calculus I - Integration Techniques",
+                subject: "Mathematics",
+                type: "Lecture Notes",
+                professor: "Prof. Michael Chen",
+                uploader: "Emma Wilson",
+                semester: "Fall 2024",
+                uploadDate: "2024-01-20",
+                downloads: 187,
+                rating: 4.6,
+                pages: 28,
+                description: "Detailed lecture notes on integration techniques including substitution, integration by parts, and partial fractions.",
+                topics: ["U-Substitution", "Integration by Parts", "Partial Fractions", "Trigonometric Substitution"],
+                format: "PDF"
+            },
+            {
+                id: 3,
+                title: "Quantum Physics - Wave-Particle Duality",
+                subject: "Physics",
+                type: "Mind Map",
+                professor: "Dr. Emily Rodriguez",
+                uploader: "James Park",
+                semester: "Spring 2024",
+                uploadDate: "2024-01-18",
+                downloads: 156,
+                rating: 4.7,
+                pages: 12,
+                description: "Visual mind map exploring the concept of wave-particle duality in quantum mechanics with examples.",
+                topics: ["Double-Slit Experiment", "Photon Properties", "de Broglie Wavelength", "Uncertainty Principle"],
+                format: "PNG"
+            },
+            {
+                id: 4,
+                title: "Organic Chemistry - Reaction Mechanisms",
+                subject: "Chemistry",
+                type: "Study Guide",
+                professor: "Dr. Lisa Anderson",
+                uploader: "Sophie Martinez",
+                semester: "Fall 2024",
+                uploadDate: "2024-01-22",
+                downloads: 198,
+                rating: 4.5,
+                pages: 36,
+                description: "Complete guide to organic reaction mechanisms with step-by-step explanations and practice problems.",
+                topics: ["SN1/SN2 Reactions", "Elimination Reactions", "Addition Reactions", "Aromatic Substitution"],
+                format: "PDF"
+            },
+            {
+                id: 5,
+                title: "Database Systems - SQL Practice Problems",
+                subject: "Computer Science",
+                type: "Practice Test",
+                professor: "Prof. David Wilson",
+                uploader: "Ryan Kim",
+                semester: "Fall 2024",
+                uploadDate: "2024-01-25",
+                downloads: 267,
+                rating: 4.9,
+                pages: 24,
+                description: "Collection of SQL practice problems with solutions covering joins, subqueries, and advanced queries.",
+                topics: ["SELECT Statements", "JOINs", "Subqueries", "Aggregate Functions", "Views"],
+                format: "PDF"
+            },
+            {
+                id: 6,
+                title: "Linear Algebra - Matrix Operations",
+                subject: "Mathematics",
+                type: "Lecture Notes",
+                professor: "Prof. James Thompson",
+                uploader: "Maria Garcia",
+                semester: "Spring 2024",
+                uploadDate: "2024-01-19",
+                downloads: 145,
+                rating: 4.4,
+                pages: 32,
+                description: "Comprehensive notes on matrix operations, determinants, eigenvalues, and eigenvectors.",
+                topics: ["Matrix Multiplication", "Determinants", "Inverse Matrices", "Eigenvalues", "Eigenvectors"],
+                format: "PDF"
+            },
+            {
+                id: 7,
+                title: "Thermodynamics - First Law Applications",
+                subject: "Engineering",
+                type: "Assignment",
+                professor: "Prof. Wilson",
+                uploader: "Taylor Swift",
+                semester: "Fall 2024",
+                uploadDate: "2024-01-21",
+                downloads: 89,
+                rating: 4.3,
+                pages: 18,
+                description: "Solved assignment problems demonstrating applications of the first law of thermodynamics.",
+                topics: ["Energy Conservation", "Work and Heat", "Internal Energy", "Enthalpy"],
+                format: "PDF"
+            },
+            {
+                id: 8,
+                title: "Marketing Principles - Consumer Behavior",
+                subject: "Business",
+                type: "Study Guide",
+                professor: "Dr. Johnson",
+                uploader: "Chris Brown",
+                semester: "Fall 2024",
+                uploadDate: "2024-01-23",
+                downloads: 123,
+                rating: 4.6,
+                pages: 29,
+                description: "Study guide covering consumer behavior theories, decision-making processes, and market segmentation.",
+                topics: ["Consumer Psychology", "Decision Making", "Market Segmentation", "Brand Loyalty"],
+                format: "PDF"
+            }
+        ];
+
+        let filteredNotes = [...notes];
+        let currentNote = null;
+
+        function renderNotes() {
+            const grid = document.getElementById('notesGrid');
+            grid.innerHTML = '';
+
+            filteredNotes.forEach(note => {
+                const typeColors = {
+                    'Lecture Notes': 'bg-blue-400/10 text-blue-400',
+                    'Study Guide': 'bg-green-400/10 text-green-400',
+                    'Mind Map': 'bg-purple-400/10 text-purple-400',
+                    'Assignment': 'bg-orange-400/10 text-orange-400',
+                    'Practice Test': 'bg-red-400/10 text-red-400'
+                };
+
+                const card = document.createElement('div');
+                card.className = 'bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:scale-105 transition-all duration-300 cursor-pointer';
+                card.onclick = () => openNoteModal(note.id);
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-yellow-500/20 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <span class="px-2 py-1 text-xs rounded-lg ${typeColors[note.type]}">${note.type}</span>
+                    </div>
+                    
+                    <h3 class="text-lg font-semibold text-white mb-2 line-clamp-2">${note.title}</h3>
+                    <p class="text-sm text-blue-400 mb-1">${note.subject}</p>
+                    <p class="text-xs text-gray-400 mb-3">By ${note.professor}</p>
+                    
+                    <p class="text-sm text-gray-400 mb-4 line-clamp-2">${note.description}</p>
+                    
+                    <div class="flex items-center justify-between text-xs text-gray-500 mb-4">
+                        <span>📄 ${note.pages} pages</span>
+                        <span>⭐ ${note.rating}</span>
+                        <span>⬇️ ${note.downloads}</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">Uploaded by ${note.uploader}</span>
+                        <span class="text-yellow-400 font-medium text-sm">View Details →</span>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('totalNotes').textContent = notes.length;
+            document.getElementById('totalDownloads').textContent = notes.reduce((sum, note) => sum + note.downloads, 0);
+            document.getElementById('activeContributors').textContent = new Set(notes.map(note => note.uploader)).size;
+            document.getElementById('avgRating').textContent = (notes.reduce((sum, note) => sum + note.rating, 0) / notes.length).toFixed(1);
+        }
+
+        function filterNotes() {
+            const searchTerm = document.getElementById('notesSearch').value.toLowerCase();
+            const subjectFilter = document.getElementById('subjectFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+            const semesterFilter = document.getElementById('semesterFilter').value;
+
+            filteredNotes = notes.filter(note => {
+                const matchesSearch = note.title.toLowerCase().includes(searchTerm) ||
+                                    note.description.toLowerCase().includes(searchTerm) ||
+                                    note.topics.some(topic => topic.toLowerCase().includes(searchTerm)) ||
+                                    note.professor.toLowerCase().includes(searchTerm);
+                const matchesSubject = !subjectFilter || note.subject === subjectFilter;
+                const matchesType = !typeFilter || note.type === typeFilter;
+                const matchesSemester = !semesterFilter || note.semester === semesterFilter;
+
+                return matchesSearch && matchesSubject && matchesType && matchesSemester;
+            });
+
+            renderNotes();
+        }
+
+        function openNoteModal(noteId) {
+            const note = notes.find(n => n.id === noteId);
+            if (!note) return;
+
+            currentNote = note;
+            
+            document.getElementById('modalNoteTitle').textContent = note.title;
+            document.getElementById('modalNoteContent').innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-gray-300 mb-3">Note Information</h4>
+                        <div class="space-y-2 text-sm">
+                            <div><span class="text-gray-400">Subject:</span> ${note.subject}</div>
+                            <div><span class="text-gray-400">Type:</span> ${note.type}</div>
+                            <div><span class="text-gray-400">Professor:</span> ${note.professor}</div>
+                            <div><span class="text-gray-400">Semester:</span> ${note.semester}</div>
+                            <div><span class="text-gray-400">Pages:</span> ${note.pages}</div>
+                            <div><span class="text-gray-400">Format:</span> ${note.format}</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-300 mb-3">Statistics</h4>
+                        <div class="space-y-2 text-sm">
+                            <div><span class="text-gray-400">Uploaded by:</span> ${note.uploader}</div>
+                            <div><span class="text-gray-400">Upload Date:</span> ${note.uploadDate}</div>
+                            <div><span class="text-gray-400">Downloads:</span> ${note.downloads}</div>
+                            <div><span class="text-gray-400">Rating:</span> <span class="text-yellow-400">⭐ ${note.rating}/5.0</span></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <h4 class="font-semibold text-gray-300 mb-3">Description</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">${note.description}</p>
+                </div>
+                
+                <div class="mt-6">
+                    <h4 class="font-semibold text-gray-300 mb-3">Topics Covered</h4>
+                    <div class="flex flex-wrap gap-2">
+                        ${note.topics.map(topic => `<span class="px-3 py-1 text-xs bg-yellow-400/10 text-yellow-400 rounded-lg">${topic}</span>`).join('')}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('noteModal').classList.remove('hidden');
+            document.getElementById('noteModal').classList.add('flex');
+        }
+
+        function closeNoteModal() {
+            document.getElementById('noteModal').classList.add('hidden');
+            document.getElementById('noteModal').classList.remove('flex');
+            currentNote = null;
+        }
+
+        function downloadNote() {
+            if (!currentNote) return;
+
+            // Simulate download
+            currentNote.downloads++;
+            alert(`Downloading "${currentNote.title}"...\n\nThis is a simulation - in a real application, the file would download now.`);
+            closeNoteModal();
+            renderNotes();
+        }
+
+        function openUploadModal() {
+            document.getElementById('uploadModal').classList.remove('hidden');
+            document.getElementById('uploadModal').classList.add('flex');
+        }
+
+        function closeUploadModal() {
+            document.getElementById('uploadModal').classList.add('hidden');
+            document.getElementById('uploadModal').classList.remove('flex');
+        }
+
+        function uploadNotes() {
+            alert('Notes uploaded successfully! Thank you for contributing to the StudIQ community. Your notes will be reviewed and published shortly.');
+            closeUploadModal();
+        }
+
+        // Event listeners
+        document.getElementById('notesSearch').addEventListener('input', filterNotes);
+        document.getElementById('subjectFilter').addEventListener('change', filterNotes);
+        document.getElementById('typeFilter').addEventListener('change', filterNotes);
+        document.getElementById('semesterFilter').addEventListener('change', filterNotes);
+
+        // Close modals when clicking outside
+        document.getElementById('noteModal').addEventListener('click', (e) => {
+            if (e.target.id === 'noteModal') {
+                closeNoteModal();
+            }
+        });
+
+        document.getElementById('uploadModal').addEventListener('click', (e) => {
+            if (e.target.id === 'uploadModal') {
+                closeUploadModal();
+            }
+        });
+
+        // Initialize
+        renderNotes();
+    </script>
+</body>
+</html>

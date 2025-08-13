@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookHub - UNIMATE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans min-h-screen">
+    <!-- Navigation -->
+    <nav class="px-6 py-5 md:px-10 md:py-6 bg-gray-900/95 backdrop-blur-md border-b border-white/10">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <a href="../index.html" class="flex items-center gap-3">
+                    <svg viewBox="0 0 24 24" class="w-8 h-8 text-blue-400">
+                        <path fill="currentColor" d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V15h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+                    </svg>
+                    <div class="text-2xl md:text-3xl font-bold">UNIMATE</div>
+                </a>
+            </div>
+            <a href="../index.html" class="px-5 py-2.5 border border-gray-700 rounded-lg bg-transparent hover:border-gray-600 hover:bg-white/5 transition-all duration-300 text-sm font-semibold">
+                ← Back to Home
+            </a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="px-6 md:px-10 py-12 bg-gradient-to-br from-blue-900/20 to-gray-900">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-16 h-16 flex items-center justify-center bg-blue-500/20 border-2 border-blue-400/40 rounded-2xl">
+                    <svg class="w-10 h-10 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C20.168 18.477 18.582 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-light bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">BookHub</h1>
+                    <p class="text-xl text-gray-400 mt-2">Your Digital Library Companion</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search & Filter Section -->
+    <div class="px-6 md:px-10 py-8 bg-gray-800/30">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="md:col-span-2">
+                    <input type="text" id="bookSearch" placeholder="Search books by title, author, or subject..." class="w-full px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-400/50">
+                </div>
+                <select id="categoryFilter" class="px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white focus:outline-none focus:border-blue-400/50">
+                    <option value="">All Categories</option>
+                    <option value="Computer Science">Computer Science</option>
+                    <option value="Mathematics">Mathematics</option>
+                    <option value="Physics">Physics</option>
+                    <option value="Chemistry">Chemistry</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Business">Business</option>
+                </select>
+                <select id="availabilityFilter" class="px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white focus:outline-none focus:border-blue-400/50">
+                    <option value="">All Status</option>
+                    <option value="Available">Available</option>
+                    <option value="Limited">Limited Copies</option>
+                    <option value="Unavailable">Currently Unavailable</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Books Table -->
+    <div class="px-6 md:px-10 py-12">
+        <div class="max-w-6xl mx-auto">
+            <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full" id="booksTable">
+                        <thead class="bg-white/5 border-b border-white/10">
+                            <tr>
+                                <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">Book Details</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">Author</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">Category</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">Status</th>
+                                <th class="px-6 py-4 text-left text-sm font-semibold uppercase tracking-wide">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/10" id="booksTableBody">
+                            <!-- Books will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mt-12">
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-bold text-blue-400 mb-2" id="totalBooks">0</div>
+                    <div class="text-sm text-gray-400 uppercase tracking-wide">Total Books</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-bold text-green-400 mb-2" id="availableBooks">0</div>
+                    <div class="text-sm text-gray-400 uppercase tracking-wide">Available</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-bold text-yellow-400 mb-2" id="issuedBooks">0</div>
+                    <div class="text-sm text-gray-400 uppercase tracking-wide">Currently Issued</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-bold text-purple-400 mb-2" id="reservedBooks">0</div>
+                    <div class="text-sm text-gray-400 uppercase tracking-wide">Reserved</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="px-6 md:px-10 py-8 border-t border-white/10 text-center">
+        <p class="text-gray-400">© 2025 UNIMATE BookHub. Transforming your library experience.</p>
+    </footer>
+
+    <!-- Book Details Modal -->
+    <div id="bookModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-900 border border-white/20 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <h3 class="text-2xl font-bold" id="modalTitle">Book Title</h3>
+                    <button onclick="closeModal()" class="text-gray-400 hover:text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div id="modalContent" class="space-y-4">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+                <div class="flex gap-4 mt-8">
+                    <button id="modalActionBtn" class="px-6 py-3 bg-blue-500 hover:bg-blue-600 rounded-xl font-semibold transition-colors duration-300">
+                        Issue Book
+                    </button>
+                    <button onclick="closeModal()" class="px-6 py-3 bg-gray-600 hover:bg-gray-700 rounded-xl font-semibold transition-colors duration-300">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample book data
+        const books = [
+            {
+                id: 1,
+                title: "Data Structures and Algorithms in Python",
+                author: "Michael T. Goodrich",
+                category: "Computer Science",
+                isbn: "978-1118290279",
+                status: "Available",
+                copies: 5,
+                description: "A comprehensive guide to data structures and algorithms using Python programming language.",
+                publisher: "Wiley",
+                year: 2013,
+                pages: 770
+            },
+            {
+                id: 2,
+                title: "Introduction to Machine Learning",
+                author: "Alpaydin Ethem",
+                category: "Computer Science",
+                isbn: "978-0262028189",
+                status: "Available",
+                copies: 3,
+                description: "Comprehensive introduction to the field of machine learning, artificial intelligence.",
+                publisher: "MIT Press",
+                year: 2020,
+                pages: 712
+            },
+            {
+                id: 3,
+                title: "Calculus: Early Transcendentals",
+                author: "James Stewart",
+                category: "Mathematics",
+                isbn: "978-1285741550",
+                status: "Limited",
+                copies: 2,
+                description: "Complete calculus textbook covering differential and integral calculus.",
+                publisher: "Cengage Learning",
+                year: 2015,
+                pages: 1368
+            },
+            {
+                id: 4,
+                title: "Physics for Scientists and Engineers",
+                author: "Raymond A. Serway",
+                category: "Physics",
+                isbn: "978-1439048382",
+                status: "Available",
+                copies: 4,
+                description: "Comprehensive physics textbook for undergraduate students.",
+                publisher: "Cengage Learning",
+                year: 2018,
+                pages: 1344
+            },
+            {
+                id: 5,
+                title: "Organic Chemistry",
+                author: "Paula Yurkanis Bruice",
+                category: "Chemistry",
+                isbn: "978-0134042282",
+                status: "Unavailable",
+                copies: 0,
+                description: "Complete guide to organic chemistry principles and mechanisms.",
+                publisher: "Pearson",
+                year: 2017,
+                pages: 1248
+            },
+            {
+                id: 6,
+                title: "Engineering Mechanics: Dynamics",
+                author: "Russell C. Hibbeler",
+                category: "Engineering",
+                isbn: "978-0134116990",
+                status: "Available",
+                copies: 6,
+                description: "Fundamental principles of engineering dynamics and mechanics.",
+                publisher: "Pearson",
+                year: 2016,
+                pages: 768
+            },
+            {
+                id: 7,
+                title: "Principles of Marketing",
+                author: "Philip Kotler",
+                category: "Business",
+                isbn: "978-0134492513",
+                status: "Limited",
+                copies: 1,
+                description: "Essential marketing principles and strategies for modern business.",
+                publisher: "Pearson",
+                year: 2018,
+                pages: 832
+            },
+            {
+                id: 8,
+                title: "Linear Algebra and Its Applications",
+                author: "David C. Lay",
+                category: "Mathematics",
+                isbn: "978-0321982384",
+                status: "Available",
+                copies: 4,
+                description: "Comprehensive introduction to linear algebra concepts and applications.",
+                publisher: "Pearson",
+                year: 2016,
+                pages: 576
+            },
+            {
+                id: 9,
+                title: "Database System Concepts",
+                author: "Abraham Silberschatz",
+                category: "Computer Science",
+                isbn: "978-0078022159",
+                status: "Available",
+                copies: 3,
+                description: "Complete guide to database systems and management principles.",
+                publisher: "McGraw-Hill",
+                year: 2019,
+                pages: 1376
+            },
+            {
+                id: 10,
+                title: "Thermodynamics: An Engineering Approach",
+                author: "Yunus A. Cengel",
+                category: "Engineering",
+                isbn: "978-0073398174",
+                status: "Limited",
+                copies: 2,
+                description: "Engineering thermodynamics principles and applications.",
+                publisher: "McGraw-Hill",
+                year: 2019,
+                pages: 1024
+            }
+        ];
+
+        let filteredBooks = [...books];
+
+        function renderBooks() {
+            const tableBody = document.getElementById('booksTableBody');
+            tableBody.innerHTML = '';
+
+            filteredBooks.forEach(book => {
+                const row = document.createElement('tr');
+                row.className = 'hover:bg-white/5 transition-colors duration-300';
+                
+                const statusColor = {
+                    'Available': 'text-green-400 bg-green-400/10',
+                    'Limited': 'text-yellow-400 bg-yellow-400/10',
+                    'Unavailable': 'text-red-400 bg-red-400/10'
+                };
+
+                row.innerHTML = `
+                    <td class="px-6 py-4">
+                        <div>
+                            <div class="font-semibold text-white">${book.title}</div>
+                            <div class="text-sm text-gray-400">ISBN: ${book.isbn}</div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-gray-300">${book.author}</td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 text-xs rounded-lg bg-blue-400/10 text-blue-400">${book.category}</span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="px-2 py-1 text-xs rounded-lg ${statusColor[book.status]}">${book.status}</span>
+                        <div class="text-xs text-gray-400 mt-1">${book.copies} copies</div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex gap-2">
+                            <button onclick="openModal(${book.id})" class="px-3 py-1.5 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-colors duration-300 text-sm">
+                                View Details
+                            </button>
+                            ${book.status !== 'Unavailable' ? `
+                                <button onclick="issueBook(${book.id})" class="px-3 py-1.5 bg-green-500/20 text-green-400 rounded-lg hover:bg-green-500/30 transition-colors duration-300 text-sm">
+                                    ${book.status === 'Available' ? 'Issue' : 'Reserve'}
+                                </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('totalBooks').textContent = books.length;
+            document.getElementById('availableBooks').textContent = books.filter(b => b.status === 'Available').length;
+            document.getElementById('issuedBooks').textContent = books.filter(b => b.copies === 0).length;
+            document.getElementById('reservedBooks').textContent = books.filter(b => b.status === 'Limited').length;
+        }
+
+        function filterBooks() {
+            const searchTerm = document.getElementById('bookSearch').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const availabilityFilter = document.getElementById('availabilityFilter').value;
+
+            filteredBooks = books.filter(book => {
+                const matchesSearch = book.title.toLowerCase().includes(searchTerm) ||
+                                    book.author.toLowerCase().includes(searchTerm) ||
+                                    book.category.toLowerCase().includes(searchTerm);
+                const matchesCategory = !categoryFilter || book.category === categoryFilter;
+                const matchesAvailability = !availabilityFilter || book.status === availabilityFilter;
+
+                return matchesSearch && matchesCategory && matchesAvailability;
+            });
+
+            renderBooks();
+        }
+
+        function openModal(bookId) {
+            const book = books.find(b => b.id === bookId);
+            if (!book) return;
+
+            document.getElementById('modalTitle').textContent = book.title;
+            document.getElementById('modalContent').innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <h4 class="font-semibold text-gray-300 mb-2">Book Information</h4>
+                        <div class="space-y-2 text-sm">
+                            <div><span class="text-gray-400">Author:</span> ${book.author}</div>
+                            <div><span class="text-gray-400">ISBN:</span> ${book.isbn}</div>
+                            <div><span class="text-gray-400">Category:</span> ${book.category}</div>
+                            <div><span class="text-gray-400">Publisher:</span> ${book.publisher}</div>
+                            <div><span class="text-gray-400">Year:</span> ${book.year}</div>
+                            <div><span class="text-gray-400">Pages:</span> ${book.pages}</div>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-300 mb-2">Availability</h4>
+                        <div class="space-y-2 text-sm">
+                            <div><span class="text-gray-400">Status:</span> <span class="text-${book.status === 'Available' ? 'green' : book.status === 'Limited' ? 'yellow' : 'red'}-400">${book.status}</span></div>
+                            <div><span class="text-gray-400">Copies Available:</span> ${book.copies}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6">
+                    <h4 class="font-semibold text-gray-300 mb-2">Description</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">${book.description}</p>
+                </div>
+            `;
+
+            const actionBtn = document.getElementById('modalActionBtn');
+            if (book.status === 'Unavailable') {
+                actionBtn.style.display = 'none';
+            } else {
+                actionBtn.style.display = 'block';
+                actionBtn.textContent = book.status === 'Available' ? 'Issue Book' : 'Reserve Book';
+                actionBtn.onclick = () => issueBook(bookId);
+            }
+
+            document.getElementById('bookModal').classList.remove('hidden');
+            document.getElementById('bookModal').classList.add('flex');
+        }
+
+        function closeModal() {
+            document.getElementById('bookModal').classList.add('hidden');
+            document.getElementById('bookModal').classList.remove('flex');
+        }
+
+        function issueBook(bookId) {
+            const book = books.find(b => b.id === bookId);
+            if (!book) return;
+
+            if (book.status === 'Unavailable') {
+                alert('This book is currently unavailable.');
+                return;
+            }
+
+            const action = book.status === 'Available' ? 'issued' : 'reserved';
+            
+            // Simulate book issuing/reservation
+            if (book.copies > 1) {
+                book.copies--;
+                if (book.copies <= 2) {
+                    book.status = 'Limited';
+                }
+            } else {
+                book.copies = 0;
+                book.status = 'Unavailable';
+            }
+
+            alert(`Book "${book.title}" has been successfully ${action}!`);
+            closeModal();
+            renderBooks();
+        }
+
+        // Event listeners
+        document.getElementById('bookSearch').addEventListener('input', filterBooks);
+        document.getElementById('categoryFilter').addEventListener('change', filterBooks);
+        document.getElementById('availabilityFilter').addEventListener('change', filterBooks);
+
+        // Close modal when clicking outside
+        document.getElementById('bookModal').addEventListener('click', (e) => {
+            if (e.target.id === 'bookModal') {
+                closeModal();
+            }
+        });
+
+        // Initialize
+        renderBooks();
+    </script>
+</body>
+</html>

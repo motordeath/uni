@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Build Buddy - UNIMATE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans min-h-screen">
+    <!-- Navigation -->
+    <nav class="px-6 py-5 md:px-10 md:py-6 bg-gray-900/95 backdrop-blur-md border-b border-white/10">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <a href="../index.html" class="flex items-center gap-3">
+                    <svg viewBox="0 0 24 24" class="w-8 h-8 text-orange-400">
+                        <path fill="currentColor" d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V15h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+                    </svg>
+                    <div class="text-2xl md:text-3xl font-bold">UNIMATE</div>
+                </a>
+            </div>
+            <a href="../index.html" class="px-5 py-2.5 border border-gray-700 rounded-lg bg-transparent hover:border-gray-600 hover:bg-white/5 transition-all duration-300 text-sm font-semibold">
+                ← Back to Home
+            </a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="px-6 md:px-10 py-12 bg-gradient-to-br from-orange-900/20 to-gray-900">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-16 h-16 flex items-center justify-center bg-orange-500/20 border-2 border-orange-400/40 rounded-2xl">
+                    <svg class="w-10 h-10 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-light bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">Build Buddy</h1>
+                    <p class="text-xl text-gray-400 mt-2">Collaborative Project Hub</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tab Navigation -->
+    <div class="px-6 md:px-10 py-6 bg-gray-800/30">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex gap-4 border-b border-white/10">
+                <button onclick="switchTab('projects')" class="tab-btn px-6 py-3 font-semibold transition-colors duration-300 border-b-2 border-orange-400 text-orange-400" data-tab="projects">
+                    Active Projects
+                </button>
+                <button onclick="switchTab('submit')" class="tab-btn px-6 py-3 font-semibold transition-colors duration-300 border-b-2 border-transparent text-gray-400 hover:text-white" data-tab="submit">
+                    Submit Idea
+                </button>
+                <button onclick="switchTab('templates')" class="tab-btn px-6 py-3 font-semibold transition-colors duration-300 border-b-2 border-transparent text-gray-400 hover:text-white" data-tab="templates">
+                    Project Templates
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Section -->
+    <div id="projects-section" class="px-6 md:px-10 py-12">
+        <div class="max-w-6xl mx-auto">
+            <!-- Search & Filter -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+                <div class="md:col-span-2">
+                    <input type="text" id="projectSearch" placeholder="Search projects by title, technology, or domain..." class="w-full px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-orange-400/50">
+                </div>
+                <select id="domainFilter" class="px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-400/50">
+                    <option value="">All Domains</option>
+                    <option value="Web Development">Web Development</option>
+                    <option value="Mobile App">Mobile App</option>
+                    <option value="AI/ML">AI/ML</option>
+                    <option value="Data Science">Data Science</option>
+                    <option value="IoT">IoT</option>
+                    <option value="Blockchain">Blockchain</option>
+                </select>
+                <select id="statusFilter" class="px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-400/50">
+                    <option value="">All Status</option>
+                    <option value="Open">Open for Members</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Near Completion">Near Completion</option>
+                </select>
+            </div>
+
+            <!-- Projects Grid -->
+            <div id="projectsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Project cards will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Submit Idea Section -->
+    <div id="submit-section" class="px-6 md:px-10 py-12 hidden">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-8">
+                <h2 class="text-2xl font-semibold mb-6">Submit Your Project Idea</h2>
+                
+                <form class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Project Title *</label>
+                            <input type="text" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-400/50" placeholder="Enter project title...">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Domain *</label>
+                            <select class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-400/50">
+                                <option value="">Select Domain</option>
+                                <option value="Web Development">Web Development</option>
+                                <option value="Mobile App">Mobile App</option>
+                                <option value="AI/ML">AI/ML</option>
+                                <option value="Data Science">Data Science</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Description *</label>
+                        <textarea class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-400/50 h-32" placeholder="Describe your project idea, goals, and vision..."></textarea>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Technologies</label>
+                            <input type="text" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-400/50" placeholder="React, Node.js, Python...">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Team Size</label>
+                            <select class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-400/50">
+                                <option value="">Select Size</option>
+                                <option value="2-3">2-3 members</option>
+                                <option value="4-5">4-5 members</option>
+                                <option value="6+">6+ members</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Skills Needed</label>
+                        <input type="text" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-400/50" placeholder="Frontend Developer, UI Designer, Database Expert...">
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Estimated Duration</label>
+                            <select class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-400/50">
+                                <option value="">Select Duration</option>
+                                <option value="1-2 months">1-2 months</option>
+                                <option value="3-4 months">3-4 months</option>
+                                <option value="5-6 months">5-6 months</option>
+                                <option value="6+ months">6+ months</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Your Role</label>
+                            <input type="text" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-orange-400/50" placeholder="Project Lead, Developer, Designer...">
+                        </div>
+                    </div>
+                    
+                    <button type="button" onclick="submitProject()" class="px-8 py-3 bg-orange-500 hover:bg-orange-600 rounded-xl font-semibold transition-colors duration-300">
+                        Submit Project Idea
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Templates Section -->
+    <div id="templates-section" class="px-6 md:px-10 py-12 hidden">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-2xl font-semibold mb-8">Project Templates</h2>
+            <div id="templatesGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Template cards will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="px-6 md:px-10 py-8 border-t border-white/10 text-center">
+        <p class="text-gray-400">© 2025 UNIMATE Build Buddy. Building the future together.</p>
+    </footer>
+
+    <!-- Project Details Modal -->
+    <div id="projectModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-900 border border-white/20 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <h3 class="text-3xl font-bold" id="modalProjectTitle">Project Title</h3>
+                    <button onclick="closeProjectModal()" class="text-gray-400 hover:text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div id="modalProjectContent" class="space-y-6">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+                <div class="flex gap-4 mt-8">
+                    <button id="joinProjectBtn" onclick="joinProject()" class="px-6 py-3 bg-orange-500 hover:bg-orange-600 rounded-xl font-semibold transition-colors duration-300">
+                        Join Project
+                    </button>
+                    <button onclick="contactProjectOwner()" class="px-6 py-3 bg-blue-500 hover:bg-blue-600 rounded-xl font-semibold transition-colors duration-300">
+                        Contact Owner
+                    </button>
+                    <button onclick="closeProjectModal()" class="px-6 py-3 bg-gray-600 hover:bg-gray-700 rounded-xl font-semibold transition-colors duration-300">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample project data
+        const projects = [
+            {
+                id: 1,
+                title: "EcoTrack - Carbon Footprint Tracker",
+                domain: "Web Development",
+                status: "Open",
+                owner: "Sarah Green",
+                members: ["Sarah Green", "Mike Johnson"],
+                neededMembers: 3,
+                description: "A comprehensive web application to help individuals and organizations track, analyze, and reduce their carbon footprint through data visualization and actionable insights.",
+                technologies: ["React", "Node.js", "MongoDB", "Chart.js"],
+                skillsNeeded: ["Frontend Developer", "Backend Developer", "Data Analyst"],
+                duration: "4-5 months",
+                progress: 20,
+                features: [
+                    "User authentication and profiles",
+                    "Carbon footprint calculation engine",
+                    "Interactive data visualizations",
+                    "Goal setting and progress tracking",
+                    "Community challenges and leaderboards"
+                ],
+                goals: [
+                    "Create an intuitive user interface",
+                    "Implement accurate carbon calculations",
+                    "Build a community-driven platform",
+                    "Integrate with environmental APIs"
+                ]
+            },
+            {
+                id: 2,
+                title: "StudySync - AI-Powered Study Planner",
+                domain: "AI/ML",
+                status: "In Progress",
+                owner: "Alex Chen",
+                members: ["Alex Chen", "Emma Wilson", "James Park"],
+                neededMembers: 2,
+                description: "An intelligent study planner that uses machine learning to create personalized study schedules based on learning patterns, deadlines, and performance analytics.",
+                technologies: ["Python", "TensorFlow", "React", "PostgreSQL"],
+                skillsNeeded: ["ML Engineer", "Mobile Developer"],
+                duration: "6+ months",
+                progress: 45,
+                features: [
+                    "AI-powered schedule optimization",
+                    "Learning pattern analysis",
+                    "Performance tracking dashboard",
+                    "Adaptive study recommendations",
+                    "Integration with calendar apps"
+                ],
+                goals: [
+                    "Develop robust ML algorithms",
+                    "Create mobile application",
+                    "Implement real-time analytics",
+                    "Build user-friendly interface"
+                ]
+            },
+            {
+                id: 3,
+                title: "CampusConnect - University Social Network",
+                domain: "Mobile App",
+                status: "Open",
+                owner: "Maria Garcia",
+                members: ["Maria Garcia"],
+                neededMembers: 4,
+                description: "A mobile social networking app specifically designed for university students to connect, collaborate, and build academic and social communities.",
+                technologies: ["React Native", "Firebase", "Node.js"],
+                skillsNeeded: ["Mobile Developer", "UI/UX Designer", "Backend Developer", "QA Tester"],
+                duration: "3-4 months",
+                progress: 15,
+                features: [
+                    "Student profile creation",
+                    "Course-based communities",
+                    "Event discovery and RSVP",
+                    "Study group formation",
+                    "Campus news and updates"
+                ],
+                goals: [
+                    "Launch beta version",
+                    "Acquire 1000+ users",
+                    "Partner with universities",
+                    "Implement monetization strategy"
+                ]
+            },
+            {
+                id: 4,
+                title: "SmartHome IoT Controller",
+                domain: "IoT",
+                status: "Near Completion",
+                owner: "David Kim",
+                members: ["David Kim", "Lisa Chen", "Tom Wilson", "Ana Martinez"],
+                neededMembers: 1,
+                description: "A comprehensive IoT solution for smart home automation with energy monitoring, security features, and voice control integration.",
+                technologies: ["Arduino", "Raspberry Pi", "Python", "React"],
+                skillsNeeded: ["Hardware Engineer"],
+                duration: "5-6 months",
+                progress: 80,
+                features: [
+                    "Device automation controls",
+                    "Energy consumption monitoring",
+                    "Security camera integration",
+                    "Voice assistant compatibility",
+                    "Mobile app dashboard"
+                ],
+                goals: [
+                    "Complete hardware testing",
+                    "Finalize mobile app",
+                    "Prepare for market launch",
+                    "Create documentation"
+                ]
+            },
+            {
+                id: 5,
+                title: "BlockVote - Secure Voting System",
+                domain: "Blockchain",
+                status: "Open",
+                owner: "Ryan Mitchell",
+                members: ["Ryan Mitchell", "Sophie Turner"],
+                neededMembers: 3,
+                description: "A blockchain-based voting system ensuring transparent, secure, and tamper-proof elections for student government and organizational voting.",
+                technologies: ["Solidity", "Ethereum", "Web3.js", "React"],
+                skillsNeeded: ["Blockchain Developer", "Security Expert", "Frontend Developer"],
+                duration: "4-5 months",
+                progress: 25,
+                features: [
+                    "Smart contract voting logic",
+                    "Voter authentication system",
+                    "Real-time vote counting",
+                    "Audit trail and transparency",
+                    "Multi-platform accessibility"
+                ],
+                goals: [
+                    "Ensure 100% vote integrity",
+                    "Create user-friendly interface",
+                    "Implement scalable architecture",
+                    "Pass security audits"
+                ]
+            },
+            {
+                id: 6,
+                title: "DataViz - Interactive Analytics Platform",
+                domain: "Data Science",
+                status: "In Progress",
+                owner: "Jennifer Wong",
+                members: ["Jennifer Wong", "Carlos Rivera", "Ahmed Hassan"],
+                neededMembers: 2,
+                description: "A powerful data visualization platform that transforms complex datasets into interactive, insightful dashboards for business intelligence.",
+                technologies: ["Python", "D3.js", "Django", "PostgreSQL"],
+                skillsNeeded: ["Data Scientist", "Frontend Developer"],
+                duration: "6+ months",
+                progress: 55,
+                features: [
+                    "Drag-and-drop dashboard builder",
+                    "Real-time data processing",
+                    "Custom visualization components",
+                    "Data export and sharing tools",
+                    "Collaborative workspace"
+                ],
+                goals: [
+                    "Support 10+ chart types",
+                    "Handle million+ data points",
+                    "Implement real-time updates",
+                    "Create marketplace for templates"
+                ]
+            }
+        ];
+
+        // Template data
+        const templates = [
+            {
+                id: 1,
+                title: "E-commerce Web App",
+                domain: "Web Development",
+                technologies: ["React", "Node.js", "MongoDB"],
+                duration: "3-4 months",
+                description: "Complete e-commerce solution with cart, payments, and admin panel."
+            },
+            {
+                id: 2,
+                title: "Mobile Chat Application",
+                domain: "Mobile App",
+                technologies: ["React Native", "Firebase", "Socket.io"],
+                duration: "2-3 months",
+                description: "Real-time messaging app with group chats and media sharing."
+            },
+            {
+                id: 3,
+                title: "Machine Learning Classifier",
+                domain: "AI/ML",
+                technologies: ["Python", "TensorFlow", "Jupyter"],
+                duration: "4-5 months",
+                description: "Image classification project with model training and deployment."
+            },
+            {
+                id: 4,
+                title: "Data Analytics Dashboard",
+                domain: "Data Science",
+                technologies: ["Python", "Plotly", "Streamlit"],
+                duration: "2-3 months",
+                description: "Interactive dashboard for business data analysis and visualization."
+            }
+        ];
+
+        let filteredProjects = [...projects];
+        let currentProject = null;
+
+        // Tab switching functionality
+        function switchTab(tab) {
+            const tabs = document.querySelectorAll('.tab-btn');
+            const sections = document.querySelectorAll('[id$="-section"]');
+
+            tabs.forEach(t => {
+                t.classList.remove('border-orange-400', 'text-orange-400');
+                t.classList.add('border-transparent', 'text-gray-400');
+            });
+
+            sections.forEach(s => s.classList.add('hidden'));
+
+            document.querySelector(`[data-tab="${tab}"]`).classList.remove('border-transparent', 'text-gray-400');
+            document.querySelector(`[data-tab="${tab}"]`).classList.add('border-orange-400', 'text-orange-400');
+            document.getElementById(`${tab}-section`).classList.remove('hidden');
+
+            if (tab === 'templates') {
+                renderTemplates();
+            }
+        }
+
+        function renderProjects() {
+            const grid = document.getElementById('projectsGrid');
+            grid.innerHTML = '';
+
+            filteredProjects.forEach(project => {
+                const statusColors = {
+                    'Open': 'bg-green-400/10 text-green-400',
+                    'In Progress': 'bg-blue-400/10 text-blue-400',
+                    'Near Completion': 'bg-yellow-400/10 text-yellow-400'
+                };
+
+                const card = document.createElement('div');
+                card.className = 'bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:scale-105 transition-all duration-300 cursor-pointer';
+                card.onclick = () => openProjectModal(project.id);
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-orange-500/20 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                            </svg>
+                        </div>
+                        <span class="px-2 py-1 text-xs rounded-lg ${statusColors[project.status]}">${project.status}</span>
+                    </div>
+                    
+                    <h3 class="text-lg font-semibold text-white mb-2">${project.title}</h3>
+                    <p class="text-sm text-blue-400 mb-3">${project.domain}</p>
+                    
+                    <p class="text-sm text-gray-400 mb-4 line-clamp-2">${project.description}</p>
+                    
+                    <div class="mb-4">
+                        <div class="flex justify-between text-xs text-gray-400 mb-1">
+                            <span>Progress</span>
+                            <span>${project.progress}%</span>
+                        </div>
+                        <div class="w-full bg-gray-700 rounded-full h-2">
+                            <div class="bg-orange-400 h-2 rounded-full" style="width: ${project.progress}%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between text-xs text-gray-500 mb-4">
+                        <span>👥 ${project.members.length}/${project.members.length + project.neededMembers}</span>
+                        <span>⏱️ ${project.duration}</span>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-1 mb-4">
+                        ${project.technologies.slice(0, 3).map(tech => 
+                            `<span class="px-2 py-1 text-xs bg-orange-400/10 text-orange-400 rounded">${tech}</span>`
+                        ).join('')}
+                        ${project.technologies.length > 3 ? '<span class="px-2 py-1 text-xs bg-gray-600 text-gray-300 rounded">+' + (project.technologies.length - 3) + '</span>' : ''}
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs text-gray-500">By ${project.owner}</span>
+                        <span class="text-orange-400 font-medium text-sm">View Details →</span>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        function renderTemplates() {
+            const grid = document.getElementById('templatesGrid');
+            grid.innerHTML = '';
+
+            templates.forEach(template => {
+                const card = document.createElement('div');
+                card.className = 'bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:scale-105 transition-all duration-300';
+
+                card.innerHTML = `
+                    <div class="w-12 h-12 bg-gradient-to-r from-orange-400 to-red-500 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                    
+                    <h3 class="text-lg font-semibold text-white mb-2">${template.title}</h3>
+                    <p class="text-sm text-blue-400 mb-3">${template.domain}</p>
+                    
+                    <p class="text-sm text-gray-400 mb-4">${template.description}</p>
+                    
+                    <div class="flex flex-wrap gap-1 mb-4">
+                        ${template.technologies.map(tech => 
+                            `<span class="px-2 py-1 text-xs bg-blue-400/10 text-blue-400 rounded">${tech}</span>`
+                        ).join('')}
+                    </div>
+                    
+                    <div class="flex items-center justify-between text-xs text-gray-500">
+                        <span>⏱️ ${template.duration}</span>
+                        <button onclick="useTemplate(${template.id})" class="px-3 py-1.5 bg-orange-500/20 text-orange-400 rounded-lg hover:bg-orange-500/30 transition-colors duration-300">
+                            Use Template
+                        </button>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        function filterProjects() {
+            const searchTerm = document.getElementById('projectSearch').value.toLowerCase();
+            const domainFilter = document.getElementById('domainFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            filteredProjects = projects.filter(project => {
+                const matchesSearch = project.title.toLowerCase().includes(searchTerm) ||
+                                    project.description.toLowerCase().includes(searchTerm) ||
+                                    project.technologies.some(tech => tech.toLowerCase().includes(searchTerm));
+                const matchesDomain = !domainFilter || project.domain === domainFilter;
+                const matchesStatus = !statusFilter || project.status === statusFilter;
+
+                return matchesSearch && matchesDomain && matchesStatus;
+            });
+
+            renderProjects();
+        }
+
+        function openProjectModal(projectId) {
+            const project = projects.find(p => p.id === projectId);
+            if (!project) return;
+
+            currentProject = project;
+            
+            document.getElementById('modalProjectTitle').textContent = project.title;
+            document.getElementById('modalProjectContent').innerHTML = `
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-300 mb-3">Project Overview</h4>
+                            <p class="text-gray-400 text-sm leading-relaxed">${project.description}</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-gray-300 mb-3">Technologies</h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${project.technologies.map(tech => `<span class="px-3 py-1 text-sm bg-orange-400/10 text-orange-400 rounded-lg">${tech}</span>`).join('')}
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-gray-300 mb-3">Features</h4>
+                            <ul class="space-y-2">
+                                ${project.features.map(feature => `<li class="text-sm text-gray-400 flex items-center gap-2"><span class="text-green-400">•</span>${feature}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-gray-300 mb-3">Project Goals</h4>
+                            <ul class="space-y-2">
+                                ${project.goals.map(goal => `<li class="text-sm text-gray-400 flex items-center gap-2"><span class="text-blue-400">→</span>${goal}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-300 mb-3">Project Details</h4>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Domain:</span>
+                                    <span class="text-blue-400">${project.domain}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Status:</span>
+                                    <span class="text-${project.status === 'Open' ? 'green' : project.status === 'In Progress' ? 'blue' : 'yellow'}-400">${project.status}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Duration:</span>
+                                    <span>${project.duration}</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-gray-400">Progress:</span>
+                                    <span class="text-orange-400">${project.progress}%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-gray-300 mb-3">Team</h4>
+                            <div class="space-y-2">
+                                <div class="text-sm text-gray-400">
+                                    <span class="font-medium">Project Owner:</span> ${project.owner}
+                                </div>
+                                <div class="text-sm text-gray-400">
+                                    <span class="font-medium">Current Members:</span>
+                                </div>
+                                <ul class="ml-4 space-y-1">
+                                    ${project.members.map(member => `<li class="text-sm text-gray-400">• ${member}</li>`).join('')}
+                                </ul>
+                                <div class="text-sm">
+                                    <span class="text-orange-400 font-medium">${project.neededMembers} more members needed</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-gray-300 mb-3">Skills Needed</h4>
+                            <div class="flex flex-wrap gap-2">
+                                ${project.skillsNeeded.map(skill => `<span class="px-3 py-1 text-sm bg-blue-400/10 text-blue-400 rounded-lg">${skill}</span>`).join('')}
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-gray-300 mb-3">Progress Tracker</h4>
+                            <div class="w-full bg-gray-700 rounded-full h-3 mb-2">
+                                <div class="bg-gradient-to-r from-orange-400 to-orange-500 h-3 rounded-full" style="width: ${project.progress}%"></div>
+                            </div>
+                            <div class="flex justify-between text-xs text-gray-400">
+                                <span>Started</span>
+                                <span>${project.progress}% Complete</span>
+                                <span>Launch</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const joinBtn = document.getElementById('joinProjectBtn');
+            if (project.status === 'Near Completion' || project.neededMembers === 0) {
+                joinBtn.style.display = 'none';
+            } else {
+                joinBtn.style.display = 'block';
+                joinBtn.textContent = project.status === 'Open' ? 'Join Project' : 'Request to Join';
+            }
+
+            document.getElementById('projectModal').classList.remove('hidden');
+            document.getElementById('projectModal').classList.add('flex');
+        }
+
+        function closeProjectModal() {
+            document.getElementById('projectModal').classList.add('hidden');
+            document.getElementById('projectModal').classList.remove('flex');
+            currentProject = null;
+        }
+
+        function joinProject() {
+            if (!currentProject) return;
+
+            if (currentProject.neededMembers <= 0) {
+                alert('This project is currently full. You can contact the owner to be added to the waitlist.');
+                return;
+            }
+
+            alert(`Welcome to "${currentProject.title}"! You'll receive an email with project details and next steps.`);
+            
+            // Simulate joining
+            currentProject.members.push("You");
+            currentProject.neededMembers--;
+            
+            closeProjectModal();
+            renderProjects();
+        }
+
+        function contactProjectOwner() {
+            if (!currentProject) return;
+            alert(`Contact ${currentProject.owner} for more information about "${currentProject.title}".\n\nIn a real application, this would open your email client or messaging system.`);
+        }
+
+        function submitProject() {
+            alert('Project idea submitted successfully! Our team will review it and get back to you within 2-3 business days.');
+        }
+
+        function useTemplate(templateId) {
+            const template = templates.find(t => t.id === templateId);
+            alert(`Using template: "${template.title}"\n\nThis template will help you get started with:\n• ${template.technologies.join('\n• ')}\n\nEstimated duration: ${template.duration}`);
+        }
+
+        // Event listeners
+        document.getElementById('projectSearch').addEventListener('input', filterProjects);
+        document.getElementById('domainFilter').addEventListener('change', filterProjects);
+        document.getElementById('statusFilter').addEventListener('change', filterProjects);
+
+        // Close modal when clicking outside
+        document.getElementById('projectModal').addEventListener('click', (e) => {
+            if (e.target.id === 'projectModal') {
+                closeProjectModal();
+            }
+        });
+
+        // Initialize
+        renderProjects();
+    </script>
+</body>
+</html>

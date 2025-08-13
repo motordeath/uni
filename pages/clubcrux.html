@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClubCrux - UNIMATE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans min-h-screen">
+    <!-- Navigation -->
+    <nav class="px-6 py-5 md:px-10 md:py-6 bg-gray-900/95 backdrop-blur-md border-b border-white/10">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <a href="../index.html" class="flex items-center gap-3">
+                    <svg viewBox="0 0 24 24" class="w-8 h-8 text-purple-400">
+                        <path fill="currentColor" d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V15h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+                    </svg>
+                    <div class="text-2xl md:text-3xl font-bold">UNIMATE</div>
+                </a>
+            </div>
+            <a href="../index.html" class="px-5 py-2.5 border border-gray-700 rounded-lg bg-transparent hover:border-gray-600 hover:bg-white/5 transition-all duration-300 text-sm font-semibold">
+                ← Back to Home
+            </a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="px-6 md:px-10 py-12 bg-gradient-to-br from-purple-900/20 to-gray-900">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-16 h-16 flex items-center justify-center bg-purple-500/20 border-2 border-purple-400/40 rounded-2xl">
+                    <svg class="w-10 h-10 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-light bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">ClubCrux</h1>
+                    <p class="text-xl text-gray-400 mt-2">Your Gateway to Campus Communities</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search & Filter Section -->
+    <div class="px-6 md:px-10 py-8 bg-gray-800/30">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="md:col-span-2">
+                    <input type="text" id="clubSearch" placeholder="Search clubs by name or activity..." class="w-full px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-purple-400/50">
+                </div>
+                <select id="categoryFilter" class="px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-400/50">
+                    <option value="">All Categories</option>
+                    <option value="Academic">Academic</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Cultural">Cultural</option>
+                    <option value="Technical">Technical</option>
+                    <option value="Social">Social</option>
+                    <option value="Arts">Arts</option>
+                </select>
+                <select id="statusFilter" class="px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white focus:outline-none focus:border-purple-400/50">
+                    <option value="">All Status</option>
+                    <option value="Open">Open for Members</option>
+                    <option value="Limited">Limited Spots</option>
+                    <option value="Closed">Applications Closed</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Clubs Grid -->
+    <div class="px-6 md:px-10 py-12">
+        <div class="max-w-6xl mx-auto">
+            <div id="clubsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Club cards will be populated by JavaScript -->
+            </div>
+
+            <!-- Club Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-bold text-purple-400 mb-2" id="totalClubs">0</div>
+                    <div class="text-sm text-gray-400 uppercase tracking-wide">Total Clubs</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-bold text-green-400 mb-2" id="activeMembers">0</div>
+                    <div class="text-sm text-gray-400 uppercase tracking-wide">Active Members</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-bold text-blue-400 mb-2" id="upcomingEvents">0</div>
+                    <div class="text-sm text-gray-400 uppercase tracking-wide">Events This Month</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-bold text-orange-400 mb-2" id="openClubs">0</div>
+                    <div class="text-sm text-gray-400 uppercase tracking-wide">Open for Joining</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="px-6 md:px-10 py-8 border-t border-white/10 text-center">
+        <p class="text-gray-400">© 2025 UNIMATE ClubCrux. Building campus communities.</p>
+    </footer>
+
+    <!-- Club Details Modal -->
+    <div id="clubModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-900 border border-white/20 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <div class="flex items-center gap-4">
+                        <div id="modalClubIcon" class="w-16 h-16 rounded-2xl flex items-center justify-center">
+                            <!-- Icon will be set by JavaScript -->
+                        </div>
+                        <div>
+                            <h3 class="text-3xl font-bold" id="modalClubName">Club Name</h3>
+                            <p class="text-lg text-gray-400" id="modalClubCategory">Category</p>
+                        </div>
+                    </div>
+                    <button onclick="closeClubModal()" class="text-gray-400 hover:text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div id="modalClubContent" class="space-y-6">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+                <div class="flex gap-4 mt-8">
+                    <button id="modalJoinBtn" onclick="joinClub()" class="px-6 py-3 bg-purple-500 hover:bg-purple-600 rounded-xl font-semibold transition-colors duration-300">
+                        Join Club
+                    </button>
+                    <button onclick="contactClub()" class="px-6 py-3 bg-blue-500 hover:bg-blue-600 rounded-xl font-semibold transition-colors duration-300">
+                        Contact Leaders
+                    </button>
+                    <button onclick="closeClubModal()" class="px-6 py-3 bg-gray-600 hover:bg-gray-700 rounded-xl font-semibold transition-colors duration-300">
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample club data
+        const clubs = [
+            {
+                id: 1,
+                name: "Tech Innovation Society",
+                category: "Technical",
+                status: "Open",
+                members: 145,
+                description: "A vibrant community of tech enthusiasts working on cutting-edge projects and innovations.",
+                fullDescription: "The Tech Innovation Society is dedicated to fostering technological creativity and innovation among students. We organize hackathons, workshops, and collaborative projects that push the boundaries of what's possible with technology.",
+                activities: ["Weekly coding workshops", "Monthly hackathons", "Industry guest speakers", "Open-source contributions"],
+                leaders: ["Sarah Chen - President", "Mike Rodriguez - VP Technical", "Emma Thompson - Events Coordinator"],
+                contact: "tech.innovation@university.edu",
+                meetingTime: "Fridays 6:00 PM",
+                location: "Computer Lab 2",
+                upcomingEvents: ["AI Workshop - Jan 25", "Blockchain Hackathon - Feb 5-7"],
+                requirements: "Basic programming knowledge preferred",
+                benefits: ["Industry networking", "Project portfolio building", "Internship opportunities"],
+                icon: "⚡",
+                color: "from-blue-500 to-cyan-500"
+            },
+            {
+                id: 2,
+                name: "Debate & Public Speaking Club",
+                category: "Academic",
+                status: "Open",
+                members: 89,
+                description: "Sharpen your oratory skills and engage in intellectual discourse on current affairs.",
+                fullDescription: "Our debate club provides a platform for students to develop critical thinking, research skills, and public speaking abilities through structured debates and discussions.",
+                activities: ["Weekly practice sessions", "Inter-university debates", "Public speaking workshops", "Mock parliamentary sessions"],
+                leaders: ["James Wilson - President", "Linda Parker - Secretary", "David Lee - Tournament Director"],
+                contact: "debate.club@university.edu",
+                meetingTime: "Wednesdays 5:30 PM",
+                location: "Auditorium B",
+                upcomingEvents: ["Regional Championship - Feb 12", "Guest Speaker Series - Feb 18"],
+                requirements: "Interest in current affairs and public speaking",
+                benefits: ["Leadership skills", "Research abilities", "Confidence building"],
+                icon: "🎤",
+                color: "from-green-500 to-teal-500"
+            },
+            {
+                id: 3,
+                name: "Basketball Club",
+                category: "Sports",
+                status: "Limited",
+                members: 32,
+                description: "Competitive basketball team representing the university in inter-collegiate tournaments.",
+                fullDescription: "Our basketball club combines competitive play with community building, offering opportunities for both serious athletes and casual players.",
+                activities: ["Daily practice sessions", "Inter-college matches", "Fitness training", "Community outreach programs"],
+                leaders: ["Marcus Johnson - Captain", "Tony Martinez - Coach", "Lisa Chen - Manager"],
+                contact: "basketball@university.edu",
+                meetingTime: "Daily 4:00 PM",
+                location: "Main Gymnasium",
+                upcomingEvents: ["City Championship - Feb 20", "Training Camp - Feb 28"],
+                requirements: "Basic basketball skills and fitness level",
+                benefits: ["Physical fitness", "Team building", "Tournament participation"],
+                icon: "🏀",
+                color: "from-orange-500 to-red-500"
+            },
+            {
+                id: 4,
+                name: "Cultural Heritage Society",
+                category: "Cultural",
+                status: "Open",
+                members: 156,
+                description: "Celebrating and preserving diverse cultural traditions through events and festivals.",
+                fullDescription: "We organize cultural events, festivals, and educational programs that celebrate the rich diversity of our student body and promote cultural understanding.",
+                activities: ["Cultural festivals", "Traditional art workshops", "Language exchange programs", "Heritage documentation"],
+                leaders: ["Priya Patel - President", "Ahmed Hassan - Cultural Director", "Maria Gonzalez - Event Coordinator"],
+                contact: "cultural.heritage@university.edu",
+                meetingTime: "Sundays 3:00 PM",
+                location: "Cultural Center",
+                upcomingEvents: ["Spring Festival - Mar 5", "International Food Fair - Mar 15"],
+                requirements: "Interest in cultural activities",
+                benefits: ["Cultural awareness", "Event organization skills", "Community networking"],
+                icon: "🌍",
+                color: "from-purple-500 to-pink-500"
+            },
+            {
+                id: 5,
+                name: "Robotics & Automation Club",
+                category: "Technical",
+                status: "Open",
+                members: 78,
+                description: "Building the future through robotics, automation, and mechanical engineering projects.",
+                fullDescription: "Our club focuses on hands-on learning through robotics projects, competitions, and workshops covering everything from basic electronics to advanced AI systems.",
+                activities: ["Robot building workshops", "Competition participation", "3D printing projects", "Arduino/Raspberry Pi tutorials"],
+                leaders: ["Alex Kim - Technical Lead", "Rebecca Zhang - Project Manager", "John Smith - Workshop Coordinator"],
+                contact: "robotics@university.edu",
+                meetingTime: "Saturdays 2:00 PM",
+                location: "Engineering Lab 3",
+                upcomingEvents: ["RoboCup Regional - Apr 2", "Automation Expo - Apr 10"],
+                requirements: "Interest in engineering and programming",
+                benefits: ["Technical skills", "Competition experience", "Industry connections"],
+                icon: "🤖",
+                color: "from-cyan-500 to-blue-500"
+            },
+            {
+                id: 6,
+                name: "Drama & Theatre Club",
+                category: "Arts",
+                status: "Open",
+                members: 94,
+                description: "Express yourself through theatrical performances, script writing, and stage production.",
+                fullDescription: "From classical plays to modern productions, our theatre club provides a creative outlet for students interested in all aspects of theatrical arts.",
+                activities: ["Play productions", "Acting workshops", "Script writing sessions", "Stage design projects"],
+                leaders: ["Emily Watson - Director", "Carlos Rivera - Producer", "Sophie Turner - Costume Designer"],
+                contact: "drama.theatre@university.edu",
+                meetingTime: "Tuesdays & Thursdays 7:00 PM",
+                location: "Drama Studio",
+                upcomingEvents: ["Spring Play Auditions - Feb 15", "Romeo & Juliet - Mar 20-22"],
+                requirements: "Passion for theatre and performance",
+                benefits: ["Creative expression", "Public speaking", "Team collaboration"],
+                icon: "🎭",
+                color: "from-yellow-500 to-orange-500"
+            },
+            {
+                id: 7,
+                name: "Environmental Action Group",
+                category: "Social",
+                status: "Open",
+                members: 112,
+                description: "Working towards a sustainable future through environmental awareness and action.",
+                fullDescription: "Our environmental group focuses on campus sustainability initiatives, environmental education, and community outreach programs.",
+                activities: ["Campus clean-up drives", "Sustainability workshops", "Tree planting campaigns", "Recycling programs"],
+                leaders: ["Green Mitchell - President", "Earth Johnson - VP Operations", "Nature Smith - Outreach Director"],
+                contact: "environment@university.edu",
+                meetingTime: "Mondays 5:00 PM",
+                location: "Biology Building 201",
+                upcomingEvents: ["Earth Day Celebration - Apr 22", "Sustainability Fair - May 1"],
+                requirements: "Commitment to environmental causes",
+                benefits: ["Environmental awareness", "Community service", "Leadership opportunities"],
+                icon: "🌱",
+                color: "from-green-500 to-lime-500"
+            },
+            {
+                id: 8,
+                name: "Photography Society",
+                category: "Arts",
+                status: "Limited",
+                members: 67,
+                description: "Capturing moments and telling stories through the art of photography.",
+                fullDescription: "Our photography society welcomes photographers of all skill levels to learn, share, and create beautiful visual stories together.",
+                activities: ["Photo walks", "Darkroom workshops", "Digital editing sessions", "Exhibition planning"],
+                leaders: ["Lens Master - President", "Shutter Speed - Technical Director", "Focus Point - Gallery Curator"],
+                contact: "photography@university.edu",
+                meetingTime: "Saturdays 10:00 AM",
+                location: "Art Studio 5",
+                upcomingEvents: ["Campus Photo Contest - Mar 1", "Annual Exhibition - Apr 15"],
+                requirements: "Basic interest in photography",
+                benefits: ["Technical skills", "Artistic development", "Portfolio building"],
+                icon: "📸",
+                color: "from-purple-500 to-blue-500"
+            },
+            {
+                id: 9,
+                name: "Volunteer Network",
+                category: "Social",
+                status: "Open",
+                members: 203,
+                description: "Making a difference in the community through organized volunteer activities.",
+                fullDescription: "Our volunteer network connects students with meaningful community service opportunities and social impact projects.",
+                activities: ["Community service projects", "Fundraising events", "Social awareness campaigns", "Charity partnerships"],
+                leaders: ["Care Giver - Coordinator", "Help Hand - Event Organizer", "Kind Heart - Partnership Manager"],
+                contact: "volunteer@university.edu",
+                meetingTime: "Sundays 11:00 AM",
+                location: "Student Center 301",
+                upcomingEvents: ["Food Drive - Feb 28", "Habitat for Humanity - Mar 10"],
+                requirements: "Desire to help others",
+                benefits: ["Community impact", "Service hours", "Social connections"],
+                icon: "❤️",
+                color: "from-red-500 to-pink-500"
+            }
+        ];
+
+        let filteredClubs = [...clubs];
+        let currentClub = null;
+
+        function renderClubs() {
+            const grid = document.getElementById('clubsGrid');
+            grid.innerHTML = '';
+
+            filteredClubs.forEach(club => {
+                const statusColor = {
+                    'Open': 'text-green-400 bg-green-400/10',
+                    'Limited': 'text-yellow-400 bg-yellow-400/10',
+                    'Closed': 'text-red-400 bg-red-400/10'
+                };
+
+                const card = document.createElement('div');
+                card.className = 'bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:scale-105 transition-all duration-300 cursor-pointer group';
+                card.onclick = () => openClubModal(club.id);
+
+                card.innerHTML = `
+                    <div class="relative">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="w-16 h-16 bg-gradient-to-r ${club.color} rounded-2xl flex items-center justify-center text-2xl">
+                                ${club.icon}
+                            </div>
+                            <span class="px-2 py-1 text-xs rounded-lg ${statusColor[club.status]}">${club.status}</span>
+                        </div>
+                        <h3 class="text-xl font-semibold text-white mb-2 group-hover:text-purple-400 transition-colors duration-300">${club.name}</h3>
+                        <p class="text-sm text-blue-400 mb-3">${club.category}</p>
+                        <p class="text-sm text-gray-400 mb-4 line-clamp-2">${club.description}</p>
+                        <div class="flex items-center justify-between text-xs text-gray-500">
+                            <span>👥 ${club.members} members</span>
+                            <span class="text-purple-400 font-medium">View Details →</span>
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('totalClubs').textContent = clubs.length;
+            document.getElementById('activeMembers').textContent = clubs.reduce((sum, club) => sum + club.members, 0);
+            document.getElementById('upcomingEvents').textContent = clubs.reduce((sum, club) => sum + club.upcomingEvents.length, 0);
+            document.getElementById('openClubs').textContent = clubs.filter(club => club.status === 'Open').length;
+        }
+
+        function filterClubs() {
+            const searchTerm = document.getElementById('clubSearch').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const statusFilter = document.getElementById('statusFilter').value;
+
+            filteredClubs = clubs.filter(club => {
+                const matchesSearch = club.name.toLowerCase().includes(searchTerm) ||
+                                    club.description.toLowerCase().includes(searchTerm) ||
+                                    club.activities.some(activity => activity.toLowerCase().includes(searchTerm));
+                const matchesCategory = !categoryFilter || club.category === categoryFilter;
+                const matchesStatus = !statusFilter || club.status === statusFilter;
+
+                return matchesSearch && matchesCategory && matchesStatus;
+            });
+
+            renderClubs();
+        }
+
+        function openClubModal(clubId) {
+            const club = clubs.find(c => c.id === clubId);
+            if (!club) return;
+
+            currentClub = club;
+            
+            document.getElementById('modalClubName').textContent = club.name;
+            document.getElementById('modalClubCategory').textContent = club.category;
+            document.getElementById('modalClubIcon').innerHTML = `<div class="w-full h-full bg-gradient-to-r ${club.color} rounded-2xl flex items-center justify-center text-3xl">${club.icon}</div>`;
+
+            document.getElementById('modalClubContent').innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-300 mb-3">About</h4>
+                            <p class="text-gray-400 text-sm leading-relaxed">${club.fullDescription}</p>
+                        </div>
+                        
+                        <div>
+                            <h4 class="font-semibold text-gray-300 mb-3">Activities</h4>
+                            <ul class="space-y-2">
+                                ${club.activities.map(activity => `<li class="text-sm text-gray-400 flex items-center gap-2"><span class="text-purple-400">•</span>${activity}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-gray-300 mb-3">Benefits</h4>
+                            <ul class="space-y-2">
+                                ${club.benefits.map(benefit => `<li class="text-sm text-gray-400 flex items-center gap-2"><span class="text-green-400">✓</span>${benefit}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="font-semibold text-gray-300 mb-3">Meeting Details</h4>
+                            <div class="space-y-2 text-sm">
+                                <div><span class="text-gray-400">When:</span> ${club.meetingTime}</div>
+                                <div><span class="text-gray-400">Where:</span> ${club.location}</div>
+                                <div><span class="text-gray-400">Members:</span> ${club.members} active members</div>
+                                <div><span class="text-gray-400">Status:</span> <span class="text-${club.status === 'Open' ? 'green' : club.status === 'Limited' ? 'yellow' : 'red'}-400">${club.status}</span></div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-gray-300 mb-3">Leadership Team</h4>
+                            <ul class="space-y-2">
+                                ${club.leaders.map(leader => `<li class="text-sm text-gray-400">${leader}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 class="font-semibold text-gray-300 mb-3">Upcoming Events</h4>
+                            <ul class="space-y-2">
+                                ${club.upcomingEvents.map(event => `<li class="text-sm text-blue-400">${event}</li>`).join('')}
+                            </ul>
+                        </div>
+
+                        ${club.requirements ? `
+                        <div>
+                            <h4 class="font-semibold text-gray-300 mb-3">Requirements</h4>
+                            <p class="text-sm text-gray-400">${club.requirements}</p>
+                        </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+
+            const joinBtn = document.getElementById('modalJoinBtn');
+            if (club.status === 'Closed') {
+                joinBtn.style.display = 'none';
+            } else {
+                joinBtn.style.display = 'block';
+                joinBtn.textContent = club.status === 'Open' ? 'Join Club' : 'Apply to Join';
+            }
+
+            document.getElementById('clubModal').classList.remove('hidden');
+            document.getElementById('clubModal').classList.add('flex');
+        }
+
+        function closeClubModal() {
+            document.getElementById('clubModal').classList.add('hidden');
+            document.getElementById('clubModal').classList.remove('flex');
+            currentClub = null;
+        }
+
+        function joinClub() {
+            if (!currentClub) return;
+
+            if (currentClub.status === 'Closed') {
+                alert('Sorry, this club is not accepting new members at the moment.');
+                return;
+            }
+
+            const action = currentClub.status === 'Open' ? 'joined' : 'applied to';
+            alert(`You have successfully ${action} ${currentClub.name}! Check your email for next steps.`);
+            
+            // Simulate member increase for open clubs
+            if (currentClub.status === 'Open') {
+                currentClub.members++;
+            }
+            
+            closeClubModal();
+            renderClubs();
+        }
+
+        function contactClub() {
+            if (!currentClub) return;
+            
+            alert(`Contact information:\nEmail: ${currentClub.contact}\n\nYou can also reach out to the leadership team for more information.`);
+        }
+
+        // Event listeners
+        document.getElementById('clubSearch').addEventListener('input', filterClubs);
+        document.getElementById('categoryFilter').addEventListener('change', filterClubs);
+        document.getElementById('statusFilter').addEventListener('change', filterClubs);
+
+        // Close modal when clicking outside
+        document.getElementById('clubModal').addEventListener('click', (e) => {
+            if (e.target.id === 'clubModal') {
+                closeClubModal();
+            }
+        });
+
+        // Initialize
+        renderClubs();
+    </script>
+</body>
+</html>

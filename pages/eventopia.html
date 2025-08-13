@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventopia - UNIMATE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white font-sans min-h-screen">
+    <!-- Navigation -->
+    <nav class="px-6 py-5 md:px-10 md:py-6 bg-gray-900/95 backdrop-blur-md border-b border-white/10">
+        <div class="flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <a href="../index.html" class="flex items-center gap-3">
+                    <svg viewBox="0 0 24 24" class="w-8 h-8 text-red-400">
+                        <path fill="currentColor" d="M12 3L1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V15h2V9L12 3zm6.82 6L12 12.72 5.18 9 12 5.28 18.82 9zM17 15.99l-5 2.73-5-2.73v-3.72L12 15l5-2.73v3.72z"/>
+                    </svg>
+                    <div class="text-2xl md:text-3xl font-bold">UNIMATE</div>
+                </a>
+            </div>
+            <a href="../index.html" class="px-5 py-2.5 border border-gray-700 rounded-lg bg-transparent hover:border-gray-600 hover:bg-white/5 transition-all duration-300 text-sm font-semibold">
+                ← Back to Home
+            </a>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="px-6 md:px-10 py-12 bg-gradient-to-br from-red-900/20 to-gray-900">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-16 h-16 flex items-center justify-center bg-red-500/20 border-2 border-red-400/40 rounded-2xl">
+                    <svg class="w-10 h-10 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-light bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">Eventopia</h1>
+                    <p class="text-xl text-gray-400 mt-2">Discover Amazing Campus Events</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="px-6 md:px-10 py-8 bg-gray-800/30">
+        <div class="max-w-6xl mx-auto">
+            <div class="flex flex-col sm:flex-row gap-4 items-center justify-between">
+                <div class="flex flex-wrap gap-4">
+                    <button onclick="filterByTime('today')" class="px-4 py-2 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition-colors duration-300">
+                        Today's Events
+                    </button>
+                    <button onclick="filterByTime('week')" class="px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg hover:bg-blue-500/30 transition-colors duration-300">
+                        This Week
+                    </button>
+                    <button onclick="filterByTime('month')" class="px-4 py-2 bg-green-500/20 text-green-400 rounded-lg hover:bg-green-500/30 transition-colors duration-300">
+                        This Month
+                    </button>
+                    <button onclick="clearFilters()" class="px-4 py-2 bg-gray-600 text-gray-300 rounded-lg hover:bg-gray-700 transition-colors duration-300">
+                        All Events
+                    </button>
+                </div>
+                <button onclick="openEventModal()" class="px-6 py-2 bg-red-500 hover:bg-red-600 text-white rounded-lg font-semibold transition-colors duration-300">
+                    Create Event
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Search & Filter Section -->
+    <div class="px-6 md:px-10 py-8">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="md:col-span-2">
+                    <input type="text" id="eventSearch" placeholder="Search events by title, organizer, or topic..." class="w-full px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-red-400/50">
+                </div>
+                <select id="categoryFilter" class="px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white focus:outline-none focus:border-red-400/50">
+                    <option value="">All Categories</option>
+                    <option value="Workshop">Workshop</option>
+                    <option value="Seminar">Seminar</option>
+                    <option value="Career Fair">Career Fair</option>
+                    <option value="Cultural">Cultural</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Academic">Academic</option>
+                    <option value="Social">Social</option>
+                </select>
+                <select id="locationFilter" class="px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white focus:outline-none focus:border-red-400/50">
+                    <option value="">All Locations</option>
+                    <option value="Main Auditorium">Main Auditorium</option>
+                    <option value="Conference Hall">Conference Hall</option>
+                    <option value="Library">Library</option>
+                    <option value="Sports Complex">Sports Complex</option>
+                    <option value="Online">Online</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Events Grid -->
+    <div class="px-6 md:px-10 pb-12">
+        <div class="max-w-6xl mx-auto">
+            <div id="eventsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Event cards will be populated by JavaScript -->
+            </div>
+
+            <!-- Events Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-bold text-red-400 mb-2" id="totalEvents">0</div>
+                    <div class="text-sm text-gray-400 uppercase tracking-wide">Total Events</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-bold text-green-400 mb-2" id="thisWeekEvents">0</div>
+                    <div class="text-sm text-gray-400 uppercase tracking-wide">This Week</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-bold text-blue-400 mb-2" id="registeredEvents">0</div>
+                    <div class="text-sm text-gray-400 uppercase tracking-wide">Your Registrations</div>
+                </div>
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 text-center">
+                    <div class="text-3xl font-bold text-purple-400 mb-2" id="onlineEvents">0</div>
+                    <div class="text-sm text-gray-400 uppercase tracking-wide">Online Events</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="px-6 md:px-10 py-8 border-t border-white/10 text-center">
+        <p class="text-gray-400">© 2025 UNIMATE Eventopia. Never miss an important event again.</p>
+    </footer>
+
+    <!-- Event Details Modal -->
+    <div id="eventDetailsModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-900 border border-white/20 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <h3 class="text-2xl font-bold" id="modalEventTitle">Event Title</h3>
+                    <button onclick="closeEventDetailsModal()" class="text-gray-400 hover:text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                <div id="modalEventContent" class="space-y-6">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+                <div class="flex gap-4 mt-8">
+                    <button id="registerBtn" onclick="registerForEvent()" class="px-6 py-3 bg-red-500 hover:bg-red-600 rounded-xl font-semibold transition-colors duration-300">
+                        Register Now
+                    </button>
+                    <button onclick="addToCalendar()" class="px-6 py-3 bg-blue-500 hover:bg-blue-600 rounded-xl font-semibold transition-colors duration-300">
+                        Add to Calendar
+                    </button>
+                    <button onclick="shareEvent()" class="px-6 py-3 bg-green-500 hover:bg-green-600 rounded-xl font-semibold transition-colors duration-300">
+                        Share Event
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create Event Modal -->
+    <div id="createEventModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+        <div class="bg-gray-900 border border-white/20 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <h3 class="text-2xl font-bold">Create New Event</h3>
+                    <button onclick="closeEventModal()" class="text-gray-400 hover:text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+                
+                <form class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Event Title *</label>
+                        <input type="text" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-red-400/50" placeholder="Enter event title...">
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Category *</label>
+                            <select class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-red-400/50">
+                                <option value="">Select Category</option>
+                                <option value="Workshop">Workshop</option>
+                                <option value="Seminar">Seminar</option>
+                                <option value="Career Fair">Career Fair</option>
+                                <option value="Cultural">Cultural</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Location *</label>
+                            <input type="text" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-red-400/50" placeholder="Event location...">
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Date *</label>
+                            <input type="date" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-red-400/50">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Time *</label>
+                            <input type="time" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-red-400/50">
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Description *</label>
+                        <textarea class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-red-400/50 h-24" placeholder="Event description..."></textarea>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Organizer</label>
+                            <input type="text" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-red-400/50" placeholder="Organizing body...">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-300 mb-2">Max Participants</label>
+                            <input type="number" class="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white focus:outline-none focus:border-red-400/50" placeholder="100">
+                        </div>
+                    </div>
+                </form>
+                
+                <div class="flex gap-4 mt-8">
+                    <button onclick="createEvent()" class="px-6 py-3 bg-red-500 hover:bg-red-600 text-white rounded-xl font-semibold transition-colors duration-300">
+                        Create Event
+                    </button>
+                    <button onclick="closeEventModal()" class="px-6 py-3 bg-gray-600 hover:bg-gray-700 rounded-xl font-semibold transition-colors duration-300">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample events data
+        const events = [
+            {
+                id: 1,
+                title: "AI & Machine Learning Workshop",
+                category: "Workshop",
+                date: "2025-02-15",
+                time: "14:00",
+                location: "Conference Hall A",
+                organizer: "Computer Science Department",
+                description: "Join us for an intensive workshop on AI and ML fundamentals, featuring hands-on projects and expert guidance.",
+                maxParticipants: 50,
+                registeredParticipants: 23,
+                status: "Open",
+                speaker: "Dr. Sarah Johnson",
+                prerequisites: "Basic programming knowledge",
+                duration: "3 hours",
+                benefits: ["Certificate of completion", "Hands-on projects", "Networking opportunities"]
+            },
+            {
+                id: 2,
+                title: "Career Fair 2025",
+                category: "Career Fair",
+                date: "2025-02-20",
+                time: "10:00",
+                location: "Main Auditorium",
+                organizer: "Career Services",
+                description: "Meet recruiters from top companies, explore internship opportunities, and advance your career prospects.",
+                maxParticipants: 500,
+                registeredParticipants: 234,
+                status: "Open",
+                companies: ["Google", "Microsoft", "Amazon", "Tesla", "Apple"],
+                duration: "Full day",
+                benefits: ["Job opportunities", "Resume reviews", "Interview preparation", "Networking"]
+            },
+            {
+                id: 3,
+                title: "Cultural Night: International Showcase",
+                category: "Cultural",
+                date: "2025-02-18",
+                time: "19:00",
+                location: "Student Center",
+                organizer: "International Student Association",
+                description: "Celebrate diversity with performances, food, and cultural exhibitions from around the world.",
+                maxParticipants: 200,
+                registeredParticipants: 87,
+                status: "Open",
+                features: ["Cultural performances", "International cuisine", "Art exhibitions"],
+                duration: "4 hours",
+                benefits: ["Cultural exchange", "Networking", "Entertainment", "Free food"]
+            },
+            {
+                id: 4,
+                title: "Blockchain Technology Seminar",
+                category: "Seminar",
+                date: "2025-02-25",
+                time: "16:30",
+                location: "Online",
+                organizer: "Tech Innovation Club",
+                description: "Explore blockchain technology, cryptocurrency, and decentralized applications with industry experts.",
+                maxParticipants: 100,
+                registeredParticipants: 45,
+                status: "Open",
+                speaker: "John Crypto (Blockchain Engineer)",
+                duration: "2 hours",
+                benefits: ["Industry insights", "Q&A session", "Resource materials", "Recording access"]
+            },
+            {
+                id: 5,
+                title: "Annual Sports Tournament",
+                category: "Sports",
+                date: "2025-03-01",
+                time: "09:00",
+                location: "Sports Complex",
+                organizer: "Athletics Department",
+                description: "Inter-department sports competition featuring basketball, soccer, tennis, and swimming events.",
+                maxParticipants: 300,
+                registeredParticipants: 156,
+                status: "Open",
+                sports: ["Basketball", "Soccer", "Tennis", "Swimming", "Volleyball"],
+                duration: "Weekend event",
+                benefits: ["Prizes for winners", "Team building", "Fitness", "Fun activities"]
+            },
+            {
+                id: 6,
+                title: "Research Symposium 2025",
+                category: "Academic",
+                date: "2025-03-10",
+                time: "09:30",
+                location: "Library Auditorium",
+                organizer: "Graduate School",
+                description: "Showcase of student and faculty research projects across multiple disciplines.",
+                maxParticipants: 150,
+                registeredParticipants: 67,
+                status: "Open",
+                tracks: ["STEM", "Social Sciences", "Humanities", "Business"],
+                duration: "Full day",
+                benefits: ["Research exposure", "Academic networking", "Publication opportunities"]
+            },
+            {
+                id: 7,
+                title: "Mental Health Awareness Workshop",
+                category: "Workshop",
+                date: "2025-02-28",
+                time: "13:00",
+                location: "Student Counseling Center",
+                organizer: "Student Wellness",
+                description: "Learn about mental health resources, stress management techniques, and self-care strategies.",
+                maxParticipants: 40,
+                registeredParticipants: 38,
+                status: "Almost Full",
+                duration: "2 hours",
+                benefits: ["Wellness resources", "Stress management", "Support network", "Self-care tips"]
+            },
+            {
+                id: 8,
+                title: "Entrepreneurship Bootcamp",
+                category: "Seminar",
+                date: "2025-03-05",
+                time: "10:00",
+                location: "Business School",
+                organizer: "Entrepreneurship Center",
+                description: "Learn startup fundamentals, pitch development, and business planning from successful entrepreneurs.",
+                maxParticipants: 80,
+                registeredParticipants: 72,
+                status: "Open",
+                speakers: ["Sarah Startup", "Mike Venture"],
+                duration: "6 hours",
+                benefits: ["Startup knowledge", "Pitch practice", "Mentorship", "Networking"]
+            },
+            {
+                id: 9,
+                title: "Gaming Tournament: Esports Championship",
+                category: "Social",
+                date: "2025-02-22",
+                time: "18:00",
+                location: "Gaming Lounge",
+                organizer: "Gaming Club",
+                description: "Competitive gaming tournament featuring popular esports titles with prizes and live streaming.",
+                maxParticipants: 64,
+                registeredParticipants: 61,
+                status: "Almost Full",
+                games: ["League of Legends", "Valorant", "CS:GO", "FIFA"],
+                duration: "4 hours",
+                benefits: ["Cash prizes", "Gaming gear", "Live streaming", "Community"]
+            }
+        ];
+
+        let filteredEvents = [...events];
+        let currentEvent = null;
+        let userRegistrations = new Set(); // Track user registrations
+
+        function renderEvents() {
+            const grid = document.getElementById('eventsGrid');
+            grid.innerHTML = '';
+
+            filteredEvents.forEach(event => {
+                const eventDate = new Date(event.date + 'T' + event.time);
+                const isRegistered = userRegistrations.has(event.id);
+                
+                const statusColors = {
+                    'Open': 'text-green-400 bg-green-400/10',
+                    'Almost Full': 'text-yellow-400 bg-yellow-400/10',
+                    'Full': 'text-red-400 bg-red-400/10'
+                };
+
+                const categoryColors = {
+                    'Workshop': 'bg-blue-400/10 text-blue-400',
+                    'Seminar': 'bg-purple-400/10 text-purple-400',
+                    'Career Fair': 'bg-green-400/10 text-green-400',
+                    'Cultural': 'bg-pink-400/10 text-pink-400',
+                    'Sports': 'bg-orange-400/10 text-orange-400',
+                    'Academic': 'bg-indigo-400/10 text-indigo-400',
+                    'Social': 'bg-cyan-400/10 text-cyan-400'
+                };
+
+                const card = document.createElement('div');
+                card.className = 'bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-6 hover:scale-105 transition-all duration-300 cursor-pointer';
+                card.onclick = () => openEventDetailsModal(event.id);
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center">
+                            <svg class="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                        </div>
+                        <div class="flex gap-2">
+                            <span class="px-2 py-1 text-xs rounded-lg ${categoryColors[event.category]}">${event.category}</span>
+                            ${isRegistered ? '<span class="px-2 py-1 text-xs rounded-lg bg-green-400/10 text-green-400">Registered</span>' : ''}
+                        </div>
+                    </div>
+                    
+                    <h3 class="text-lg font-semibold text-white mb-2 line-clamp-2">${event.title}</h3>
+                    <p class="text-sm text-gray-400 mb-3 line-clamp-2">${event.description}</p>
+                    
+                    <div class="space-y-2 text-xs text-gray-400 mb-4">
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span>${eventDate.toLocaleDateString()} at ${eventDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span>${event.location}</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                            </svg>
+                            <span>by ${event.organizer}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2 text-xs">
+                            <span class="text-gray-400">👥 ${event.registeredParticipants}/${event.maxParticipants}</span>
+                        </div>
+                        <span class="px-2 py-1 text-xs rounded-lg ${statusColors[event.status]}">${event.status}</span>
+                    </div>
+                    
+                    <div class="w-full bg-gray-700 rounded-full h-2 mb-4">
+                        <div class="bg-red-400 h-2 rounded-full" style="width: ${(event.registeredParticipants / event.maxParticipants) * 100}%"></div>
+                    </div>
+                    
+                    <span class="text-red-400 font-medium text-sm">View Details →</span>
+                `;
+
+                grid.appendChild(card);
+            });
+
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('totalEvents').textContent = events.length;
+            
+            const now = new Date();
+            const oneWeekLater = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+            const thisWeekEvents = events.filter(event => {
+                const eventDate = new Date(event.date);
+                return eventDate >= now && eventDate <= oneWeekLater;
+            });
+            document.getElementById('thisWeekEvents').textContent = thisWeekEvents.length;
+            
+            document.getElementById('registeredEvents').textContent = userRegistrations.size;
+            document.getElementById('onlineEvents').textContent = events.filter(event => event.location === 'Online').length;
+        }
+
+        function filterEvents() {
+            const searchTerm = document.getElementById('eventSearch').value.toLowerCase();
+            const categoryFilter = document.getElementById('categoryFilter').value;
+            const locationFilter = document.getElementById('locationFilter').value;
+
+            filteredEvents = events.filter(event => {
+                const matchesSearch = event.title.toLowerCase().includes(searchTerm) ||
+                                    event.description.toLowerCase().includes(searchTerm) ||
+                                    event.organizer.toLowerCase().includes(searchTerm);
+                const matchesCategory = !categoryFilter || event.category === categoryFilter;
+                const matchesLocation = !locationFilter || event.location === locationFilter;
+
+                return matchesSearch && matchesCategory && matchesLocation;
+            });
+
+            renderEvents();
+        }
+
+        function filterByTime(period) {
+            const now = new Date();
+            let endDate;
+
+            switch (period) {
+                case 'today':
+                    endDate = new Date(now.getTime() + 24 * 60 * 60 * 1000);
+                    break;
+                case 'week':
+                    endDate = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+                    break;
+                case 'month':
+                    endDate = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000);
+                    break;
+                default:
+                    filteredEvents = [...events];
+                    renderEvents();
+                    return;
+            }
+
+            filteredEvents = events.filter(event => {
+                const eventDate = new Date(event.date);
+                return eventDate >= now && eventDate <= endDate;
+            });
+
+            renderEvents();
+        }
+
+        function clearFilters() {
+            document.getElementById('eventSearch').value = '';
+            document.getElementById('categoryFilter').value = '';
+            document.getElementById('locationFilter').value = '';
+            filteredEvents = [...events];
+            renderEvents();
+        }
+
+        function openEventDetailsModal(eventId) {
+            const event = events.find(e => e.id === eventId);
+            if (!event) return;
+
+            currentEvent = event;
+            const eventDate = new Date(event.date + 'T' + event.time);
+            const isRegistered = userRegistrations.has(event.id);
+            
+            document.getElementById('modalEventTitle').textContent = event.title;
+            document.getElementById('modalEventContent').innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="font-semibold text-gray-300 mb-3">Event Details</h4>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                                </svg>
+                                <div>
+                                    <span class="text-gray-400">Date & Time:</span><br>
+                                    <span class="text-white">${eventDate.toLocaleDateString()} at ${eventDate.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                </svg>
+                                <div>
+                                    <span class="text-gray-400">Location:</span><br>
+                                    <span class="text-white">${event.location}</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                                </svg>
+                                <div>
+                                    <span class="text-gray-400">Organizer:</span><br>
+                                    <span class="text-white">${event.organizer}</span>
+                                </div>
+                            </div>
+                            ${event.duration ? `
+                                <div class="flex items-center gap-3">
+                                    <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    <div>
+                                        <span class="text-gray-400">Duration:</span><br>
+                                        <span class="text-white">${event.duration}</span>
+                                    </div>
+                                </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold text-gray-300 mb-3">Registration Info</h4>
+                        <div class="space-y-3 text-sm">
+                            <div>
+                                <span class="text-gray-400">Participants:</span>
+                                <span class="text-white ml-2">${event.registeredParticipants}/${event.maxParticipants}</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-3">
+                                <div class="bg-red-400 h-3 rounded-full" style="width: ${(event.registeredParticipants / event.maxParticipants) * 100}%"></div>
+                            </div>
+                            <div>
+                                <span class="text-gray-400">Status:</span>
+                                <span class="text-${event.status === 'Open' ? 'green' : event.status === 'Almost Full' ? 'yellow' : 'red'}-400 ml-2">${event.status}</span>
+                            </div>
+                            ${isRegistered ? '<div class="text-green-400 font-medium">✓ You are registered for this event</div>' : ''}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-6">
+                    <h4 class="font-semibold text-gray-300 mb-3">Description</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed">${event.description}</p>
+                </div>
+                
+                ${event.benefits ? `
+                <div class="mt-6">
+                    <h4 class="font-semibold text-gray-300 mb-3">What You'll Get</h4>
+                    <ul class="space-y-2">
+                        ${event.benefits.map(benefit => `<li class="text-sm text-gray-400 flex items-center gap-2"><span class="text-green-400">✓</span>${benefit}</li>`).join('')}
+                    </ul>
+                </div>
+                ` : ''}
+                
+                ${event.speaker ? `
+                <div class="mt-6">
+                    <h4 class="font-semibold text-gray-300 mb-3">Speaker</h4>
+                    <p class="text-sm text-blue-400">${event.speaker}</p>
+                </div>
+                ` : ''}
+                
+                ${event.prerequisites ? `
+                <div class="mt-6">
+                    <h4 class="font-semibold text-gray-300 mb-3">Prerequisites</h4>
+                    <p class="text-sm text-gray-400">${event.prerequisites}</p>
+                </div>
+                ` : ''}
+            `;
+
+            const registerBtn = document.getElementById('registerBtn');
+            if (isRegistered) {
+                registerBtn.textContent = 'Unregister';
+                registerBtn.className = 'px-6 py-3 bg-gray-600 hover:bg-gray-700 rounded-xl font-semibold transition-colors duration-300';
+            } else if (event.status === 'Full') {
+                registerBtn.textContent = 'Event Full';
+                registerBtn.disabled = true;
+                registerBtn.className = 'px-6 py-3 bg-gray-600 rounded-xl font-semibold opacity-50 cursor-not-allowed';
+            } else {
+                registerBtn.textContent = 'Register Now';
+                registerBtn.disabled = false;
+                registerBtn.className = 'px-6 py-3 bg-red-500 hover:bg-red-600 rounded-xl font-semibold transition-colors duration-300';
+            }
+
+            document.getElementById('eventDetailsModal').classList.remove('hidden');
+            document.getElementById('eventDetailsModal').classList.add('flex');
+        }
+
+        function closeEventDetailsModal() {
+            document.getElementById('eventDetailsModal').classList.add('hidden');
+            document.getElementById('eventDetailsModal').classList.remove('flex');
+            currentEvent = null;
+        }
+
+        function registerForEvent() {
+            if (!currentEvent) return;
+
+            const isRegistered = userRegistrations.has(currentEvent.id);
+            
+            if (isRegistered) {
+                // Unregister
+                userRegistrations.delete(currentEvent.id);
+                currentEvent.registeredParticipants--;
+                alert(`You have been unregistered from "${currentEvent.title}".`);
+            } else {
+                // Register
+                if (currentEvent.status === 'Full') {
+                    alert('Sorry, this event is full.');
+                    return;
+                }
+                
+                userRegistrations.add(currentEvent.id);
+                currentEvent.registeredParticipants++;
+                
+                // Update status if needed
+                if (currentEvent.registeredParticipants >= currentEvent.maxParticipants) {
+                    currentEvent.status = 'Full';
+                } else if (currentEvent.registeredParticipants >= currentEvent.maxParticipants * 0.8) {
+                    currentEvent.status = 'Almost Full';
+                }
+                
+                alert(`Successfully registered for "${currentEvent.title}"! Check your email for confirmation.`);
+            }
+            
+            closeEventDetailsModal();
+            renderEvents();
+        }
+
+        function addToCalendar() {
+            if (!currentEvent) return;
+            alert(`Calendar event created for "${currentEvent.title}"!\n\nIn a real application, this would add the event to your calendar app.`);
+        }
+
+        function shareEvent() {
+            if (!currentEvent) return;
+            alert(`Event link copied to clipboard!\n\nShare "${currentEvent.title}" with your friends and classmates.`);
+        }
+
+        function openEventModal() {
+            document.getElementById('createEventModal').classList.remove('hidden');
+            document.getElementById('createEventModal').classList.add('flex');
+        }
+
+        function closeEventModal() {
+            document.getElementById('createEventModal').classList.add('hidden');
+            document.getElementById('createEventModal').classList.remove('flex');
+        }
+
+        function createEvent() {
+            alert('Event created successfully! It will be reviewed and published within 24 hours.');
+            closeEventModal();
+        }
+
+        // Event listeners
+        document.getElementById('eventSearch').addEventListener('input', filterEvents);
+        document.getElementById('categoryFilter').addEventListener('change', filterEvents);
+        document.getElementById('locationFilter').addEventListener('change', filterEvents);
+
+        // Close modals when clicking outside
+        document.getElementById('eventDetailsModal').addEventListener('click', (e) => {
+            if (e.target.id === 'eventDetailsModal') {
+                closeEventDetailsModal();
+            }
+        });
+
+        document.getElementById('createEventModal').addEventListener('click', (e) => {
+            if (e.target.id === 'createEventModal') {
+                closeEventModal();
+            }
+        });
+
+        // Initialize
+        renderEvents();
+    </script>
+</body>
+</html>
