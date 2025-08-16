@@ -61,7 +61,7 @@
             <div class="mb-8">
                 <h2 class="text-2xl font-semibold mb-4">Weekly Faculty Timetable</h2>
                 <div class="flex gap-4 mb-6">
-                    <select id="departmentFilter" class="px-4 py-2 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white focus:outline-none focus:border-green-400/50">
+                    <select id="departmentFilter" class="px-4 py-2 bg-black/100 backdrop-blur-md border border-white/10 rounded-xl text-white focus:outline-none focus:border-green-400/50">
                         <option value="">All Departments</option>
                         <option value="Computer Science">Computer Science</option>
                         <option value="Mathematics">Mathematics</option>
@@ -101,14 +101,14 @@
                 <h2 class="text-2xl font-semibold mb-4">Faculty Directory</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <input type="text" id="teacherSearch" placeholder="Search faculty by name..." class="px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:border-green-400/50">
-                    <select id="deptFilter" class="px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white focus:outline-none focus:border-green-400/50">
+                    <select id="deptFilter" class="px-4 py-3 bg-black/100 backdrop-blur-md border border-white/10 rounded-xl text-white focus:outline-none focus:border-green-400/50">
                         <option value="">All Departments</option>
                         <option value="Computer Science">Computer Science</option>
                         <option value="Mathematics">Mathematics</option>
                         <option value="Physics">Physics</option>
                         <option value="Engineering">Engineering</option>
                     </select>
-                    <select id="roleFilter" class="px-4 py-3 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl text-white focus:outline-none focus:border-green-400/50">
+                    <select id="roleFilter" class="px-4 py-3 bg-black/100 backdrop-blur-md border border-white/10 rounded-xl text-white focus:outline-none focus:border-green-400/50">
                         <option value="">All Roles</option>
                         <option value="Professor">Professor</option>
                         <option value="Associate Professor">Associate Professor</option>
@@ -132,7 +132,7 @@
 
     <!-- Teacher Contact Modal -->
     <div id="teacherModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-        <div class="bg-gray-900 border border-white/20 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="bg-gray-800/10 border border-white/20 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div class="p-8">
                 <div class="flex justify-between items-start mb-6">
                     <h3 class="text-2xl font-bold" id="modalTeacherName">Teacher Name</h3>
@@ -161,95 +161,97 @@
         // Sample teacher data
         const teachers = [
             {
-                id: 1,
-                name: "Dr. Manish Tiwari",
-                role: "Professor",
-                department: "Computer Science",
-                email: "manishtiwari@university.edu",
-                phone: "+91 (555) 123-4567",
-                office: "CS Building, Room 301",
-                specialization: "Machine Learning, AI",
-                officeHours: "Mon 2-4 PM, Wed 10-12 PM",
-                bio: "Dr. Manish Tiwari is a leading researcher in machine learning with over 15 years of experience.",
-                availability: "Available"
-            },
-            {
-                id: 2,
-                name: "Prof. Shweta Singh",
-                role: "Associate Professor",
-                department: "Mathematics",
-                email: "shwetasingh@university.edu",
-                phone: "+91 (555) 234-5678",
-                office: "Math Building, Room 205",
-                specialization: "Calculus, Linear Algebra",
-                officeHours: "Tue 1-3 PM, Thu 9-11 AM",
-                bio: "Prof. Shweta specializes in applied mathematics and has published numerous papers.",
-                availability: "Busy"
-            },
-            {
-                id: 3,
-                name: "Dr. Ruchi Jha",
-                role: "Assistant Professor",
-                department: "Physics",
-                email: "jha.ruchi@university.edu",
-                phone: "+91 (555) 345-6789",
-                office: "Physics Lab, Room 102",
-                specialization: "Quantum Physics, Thermodynamics",
-                officeHours: "Mon 10-12 PM, Fri 2-4 PM",
-                bio: "Dr. Ruchi Jha focuses on quantum mechanics and theoretical physics research.",
-                availability: "Available"
-            },
-            {
-                id: 4,
-                name: "Prof. Manmohan Shukla  ",
-                role: "Professor",
-                department: "Engineering",
-                email: "manhohanshukla@university.edu",
-                phone: "+91 (555) 456-7890",
-                office: "Engineering Block, Room 401",
-                specialization: "Mechanical Engineering, Robotics",
-                officeHours: "Wed 2-4 PM, Thu 1-3 PM",
-                bio: "Lovely, Group Director PSIT.",
-                availability: "Available"
-            },
-            {
-                id: 5,
-                name: "Dr.Upasna Gupta",
-                role: "Lecturer",
-                department: "Computer Science",
-                email: "duggalsahab@university.edu",
-                phone: "+91 (555) 567-8901",
-                office: "CS Building, Room 105",
-                specialization: "Web Development, Database Systems",
-                officeHours: "Tue 11-1 PM, Thu 3-5 PM",
-                bio: "Dr. Upasna Gupta teaches web technologies and database management systems.",
-                availability: "Busy"
-            },
-            {
-                id: 6,
-                name: "Prof. Vishal Chaubey",
-                role: "Associate Professor",
-                department: "Mathematics",
-                email: "chaubeyvishal@university.edu",
-                phone: "+91 (555) 678-9012",
-                office: "Math Building, Room 301",
-                specialization: "Statistics, Probability Theory",
-                officeHours: "Mon 3-5 PM, Wed 1-3 PM",
-                bio: "Prof. Vishal specializes in statistical analysis and probability theory.",
-                availability: "Available"
-            }
+    id: 1,
+    name: "Dr. Aanya Mehra",
+    role: "Professor",
+    department: "Computer Science",
+    email: "aanya.mehra@university.edu",
+    phone: "+91 (555) 101-2020",
+    office: "CS Building, Room 310",
+    specialization: "Artificial Intelligence, Deep Learning",
+    officeHours: "Mon 2-4 PM, Wed 10-12 PM",
+    bio: "Dr. Aanya Mehra is a renowned AI researcher with over 18 years of teaching and industry experience.",
+    availability: "Available"
+},
+{
+    id: 2,
+    name: "Prof. Karan Malhotra",
+    role: "Associate Professor",
+    department: "Mathematics",
+    email: "karan.malhotra@university.edu",
+    phone: "+91 (555) 212-3030",
+    office: "Math Building, Room 215",
+    specialization: "Calculus, Linear Algebra",
+    officeHours: "Tue 1-3 PM, Thu 9-11 AM",
+    bio: "Prof. Karan Malhotra is passionate about applied mathematics and mathematical modeling.",
+    availability: "Busy"
+},
+{
+    id: 3,
+    name: "Dr. Sanya Kapoor",
+    role: "Assistant Professor",
+    department: "Physics",
+    email: "sanya.kapoor@university.edu",
+    phone: "+91 (555) 323-4040",
+    office: "Physics Lab, Room 110",
+    specialization: "Quantum Physics, Thermodynamics",
+    officeHours: "Mon 10-12 PM, Fri 2-4 PM",
+    bio: "Dr. Sanya Kapoor's research focuses on quantum mechanics and advanced energy systems.",
+    availability: "Available"
+},
+{
+    id: 4,
+    name: "Prof. Raghav Bhatia",
+    role: "Professor",
+    department: "Engineering",
+    email: "raghav.bhatia@university.edu",
+    phone: "+91 (555) 434-5050",
+    office: "Engineering Block, Room 410",
+    specialization: "Mechanical Engineering, Robotics",
+    officeHours: "Wed 2-4 PM, Thu 1-3 PM",
+    bio: "Prof. Raghav Bhatia is an industry leader in robotics and automated systems.",
+    availability: "Available"
+},
+{
+    id: 5,
+    name: "Dr. Mehul Suri",
+    role: "Lecturer",
+    department: "Computer Science",
+    email: "mehul.suri@university.edu",
+    phone: "+91 (555) 545-6060",
+    office: "CS Building, Room 115",
+    specialization: "Web Development, Database Systems",
+    officeHours: "Tue 11-1 PM, Thu 3-5 PM",
+    bio: "Dr. Mehul Suri teaches modern web frameworks and database management.",
+    availability: "Busy"
+},
+{
+    id: 6,
+    name: "Prof. Arjun Nair",
+    role: "Associate Professor",
+    department: "Mathematics",
+    email: "arjun.nair@university.edu",
+    phone: "+91 (555) 656-7070",
+    office: "Math Building, Room 305",
+    specialization: "Statistics, Probability Theory",
+    officeHours: "Mon 3-5 PM, Wed 1-3 PM",
+    bio: "Prof. Arjun Nair is an expert in statistical modeling and probability theory.",
+    availability: "Available"
+}
+
         ];
 
         // Sample timetable data
         const timetableData = [
-            { time: "9:00 AM", monday: "Dr. Manish Tiwari - AI Fundamentals", tuesday: "Prof. Shweta Singh - Calculus I", wednesday: "", thursday: "Dr. Ruchi Jha - Physics Lab", friday: "Prof. Manmohan Shukla - Robotics" },
-            { time: "10:00 AM", monday: "", tuesday: "", wednesday: "Dr. Manish Tiwari - Machine Learning", thursday: "", friday: "Dr.Upasna Gupta - Web Dev" },
-            { time: "11:00 AM", monday: "Prof. Shweta Singh - Linear Algebra", tuesday: "Dr.Upasna Gupta - Database Systems", wednesday: "", thursday: "Prof. Vishal Chaubey - Statistics", friday: "" },
-            { time: "1:00 PM", monday: "", tuesday: "Prof. Vishal Chaubey - Probability", wednesday: "Prof. Manmohan Shukla - Mech Engineering", thursday: "Prof. Shweta Singh - Advanced Calculus", friday: "Dr. Ruchi Jha - Quantum Physics" },
-            { time: "2:00 PM", monday: "Office Hours - Dr. Manish Tiwari", tuesday: "", wednesday: "Prof. Manmohan Shukla - Office Hours", thursday: "", friday: "Dr. Ruchi Jha - Office Hours" },
-            { time: "3:00 PM", monday: "", tuesday: "Dr.Upasna Gupta - Office Hours", wednesday: "", thursday: "Dr.Upasna Gupta - JavaScript", friday: "" },
-            { time: "4:00 PM", monday: "", tuesday: "", wednesday: "", thursday: "Prof. Vishal Chaubey - Office Hours", friday: "" }
-            ];
+    { time: "9:00 AM", monday: "Dr. Aanya Mehra - Artificial Intelligence", tuesday: "Prof. Karan Malhotra - Calculus I", wednesday: "", thursday: "Dr. Sanya Kapoor - Physics Lab", friday: "Prof. Raghav Bhatia - Robotics" },
+    { time: "10:00 AM", monday: "", tuesday: "", wednesday: "Dr. Aanya Mehra - Machine Learning", thursday: "", friday: "Dr. Mehul Suri - Web Development" },
+    { time: "11:00 AM", monday: "Prof. Karan Malhotra - Linear Algebra", tuesday: "Dr. Mehul Suri - Database Systems", wednesday: "", thursday: "Prof. Arjun Nair - Statistics", friday: "" },
+    { time: "1:00 PM", monday: "", tuesday: "Prof. Arjun Nair - Probability", wednesday: "Prof. Raghav Bhatia - Mechanical Engineering", thursday: "Prof. Karan Malhotra - Advanced Calculus", friday: "Dr. Sanya Kapoor - Quantum Physics" },
+    { time: "2:00 PM", monday: "Office Hours - Dr. Aanya Mehra", tuesday: "", wednesday: "Prof. Raghav Bhatia - Office Hours", thursday: "", friday: "Dr. Sanya Kapoor - Office Hours" },
+    { time: "3:00 PM", monday: "", tuesday: "Dr. Mehul Suri - Office Hours", wednesday: "", thursday: "Dr. Mehul Suri - JavaScript", friday: "" },
+    { time: "4:00 PM", monday: "", tuesday: "", wednesday: "", thursday: "Prof. Arjun Nair - Office Hours", friday: "" }
+];
+
 
 
         let filteredTeachers = [...teachers];
