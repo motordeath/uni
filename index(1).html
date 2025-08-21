@@ -174,8 +174,8 @@ function closeModal() {
                 <div class="relative max-w-2xl mx-auto">
                     <input 
                         type="text" 
-                        placeholder="Search books, notes, clubs, events..." 
-                        class="w-full px-6 py-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 transition-all duration-300"
+                        placeholder="Search book, teacher, clubs, notes..." 
+                        class="w-full px-6 py-4 bg-white/5 backdrop-blur-md border border-white rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:border-blue-400/50 focus:ring-2 focus:ring-blue-400/20 transition-all duration-300"
                     >
                     <button class="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 bg-blue-500/20 rounded-xl hover:bg-blue-500/30 transition-all duration-300">
                         <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -700,15 +700,15 @@ function closeModal() {
                     const searchTerm = this.value.toLowerCase();
                     if (searchTerm.includes('book')) {
                         window.location.href = 'pages/bookhub.html';
-                    } else if (searchTerm.includes('note')) {
+                    } else if (searchTerm.includes('studiq',)|| searchTerm.includes('notes')) {
                         window.location.href = 'pages/studiq.html';
-                    } else if (searchTerm.includes('club')) {
+                    } else if (searchTerm.includes('clubcrux')|| searchTerm.includes('club')){
                         window.location.href = 'pages/clubcrux.html';
-                    } else if (searchTerm.includes('event')) {
+                    } else if (searchTerm.includes('eventopia')|| searchTerm.includes('event')){
                         window.location.href = 'pages/eventopia.html';
-                    } else if (searchTerm.includes('teacher') || searchTerm.includes('faculty')) {
+                    } else if (searchTerm.includes('teachreach') || searchTerm.includes('faculty')|| searchTerm.includes('teacher')) {
                         window.location.href = 'pages/teach-reach.html';
-                    } else if (searchTerm.includes('project')) {
+                    } else if (searchTerm.includes('buildbuddy')|| searchTerm.includes('project')) {
                         window.location.href = 'pages/build-buddy.html';
                     }
                 }
